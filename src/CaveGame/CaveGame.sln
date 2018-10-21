@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CaveGame", "CaveGame\CaveGame.csproj", "{F5A8A47D-0A69-44CB-9B11-174F3727820C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{4DC4594C-D2A9-4D5A-AE51-EE18B9E1F6C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FFNez", "..\..\lib\FFNez\Nez.Portable\FFNez.csproj", "{1AA65EFD-D02E-4947-AD46-3F82C430726B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nez.PipelineImporter", "..\..\lib\FFNez\Nez.PipelineImporter\Nez.PipelineImporter.csproj", "{4E8EBCCC-9BBD-4EF1-B538-1B2AB6D34778}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glint", "..\..\lib\Glint\Glint\Glint.csproj", "{CD8D529B-5515-4A8B-90A9-2421279522CA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F5A8A47D-0A69-44CB-9B11-174F3727820C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5A8A47D-0A69-44CB-9B11-174F3727820C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5A8A47D-0A69-44CB-9B11-174F3727820C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5A8A47D-0A69-44CB-9B11-174F3727820C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1AA65EFD-D02E-4947-AD46-3F82C430726B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AA65EFD-D02E-4947-AD46-3F82C430726B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AA65EFD-D02E-4947-AD46-3F82C430726B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AA65EFD-D02E-4947-AD46-3F82C430726B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E8EBCCC-9BBD-4EF1-B538-1B2AB6D34778}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E8EBCCC-9BBD-4EF1-B538-1B2AB6D34778}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E8EBCCC-9BBD-4EF1-B538-1B2AB6D34778}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E8EBCCC-9BBD-4EF1-B538-1B2AB6D34778}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD8D529B-5515-4A8B-90A9-2421279522CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD8D529B-5515-4A8B-90A9-2421279522CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD8D529B-5515-4A8B-90A9-2421279522CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD8D529B-5515-4A8B-90A9-2421279522CA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1AA65EFD-D02E-4947-AD46-3F82C430726B} = {4DC4594C-D2A9-4D5A-AE51-EE18B9E1F6C8}
+		{4E8EBCCC-9BBD-4EF1-B538-1B2AB6D34778} = {4DC4594C-D2A9-4D5A-AE51-EE18B9E1F6C8}
+		{CD8D529B-5515-4A8B-90A9-2421279522CA} = {4DC4594C-D2A9-4D5A-AE51-EE18B9E1F6C8}
+	EndGlobalSection
+EndGlobal

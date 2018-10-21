@@ -1,0 +1,6 @@
+[submodule "lib/FFNez"]
+	path = lib/FFNez
+	url = https://github.com/0xFireball/FFNez.git
+[submodule "lib/Glint"]
+	path = lib/Glint
+	url = https://github.com/0xFireball/Glint.git
