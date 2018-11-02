@@ -18,7 +18,7 @@ namespace CaveGame.Scenes {
 
             // add cave view component
             var caveViewEntity = createEntity("cave_view");
-            var caveView = new CaveView(level);
+            var caveView = new CaveView();
             caveViewEntity.addComponent(caveView);
         }
     }

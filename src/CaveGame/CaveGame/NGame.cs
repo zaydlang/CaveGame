@@ -3,7 +3,7 @@ using Glint;
 
 namespace CaveGame {
     public class NGame : GlintCore {
-        public NGame() : base(1280, 720, false, "CaveGame") { }
+        public NGame() : base(Constants.DISPLAY_WIDTH, Constants.DISPLAY_HEIGHT, false, "CaveGame") { }
 
         protected override void Initialize() {
             base.Initialize();
