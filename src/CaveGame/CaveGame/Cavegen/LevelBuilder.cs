@@ -37,6 +37,7 @@ namespace CaveGame.Cavegen
                     }
                 }
             }
+
             return this;
         }
 
@@ -49,12 +50,16 @@ namespace CaveGame.Cavegen
 
                     for (int k = 0; k < 3; k++) {
                         for (int l = 0; l < 3; l++) {
-                            try {
-                                if (k == 1 && l == 1) continue;
-                                if (tempLevel.get(i + (k - 1), j + (l - 1)).getColor() == aliveState.getColor()) {
-                                    neighbors++;
-                                }
-                            } catch (IndexOutOfRangeException e) {; }
+                            if ((k == 1 && l == 1) || 
+                                (i == 0 && k == 0) ||
+                                (j == 0 && l == 0) ||
+                                (i == Constants.LEVEL_ROWS - 1 && k == 2) ||
+                                (j == Constants.LEVEL_COLUMNS - 1 && l == 2))
+                                continue;
+
+                            if (tempLevel.get(i + (k - 1), j + (l - 1)).getColor() == aliveState.getColor()) {
+                                neighbors++;
+                            }
                         }
                     }
 
@@ -65,7 +70,6 @@ namespace CaveGame.Cavegen
                     }
                 }
             }
-
             return this;
         }
 

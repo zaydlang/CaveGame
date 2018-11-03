@@ -10,6 +10,8 @@ namespace CaveGame.Cavegen {
         }
 
         public void set(int i, int j, Block block) {
+            if (i < 0 || i > Constants.LEVEL_ROWS) return;
+            if (j < 0 || j > Constants.LEVEL_COLUMNS) return;
             levelMap[i, j] = block;
         }
 
