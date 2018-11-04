@@ -12,20 +12,18 @@ namespace CaveGame.Components {
 
         public CaveView() {
             do {
-                level = new LevelBuilder().fillLevel(new Block(Color.Black))
-                                          .createRooms(9, 10, 10, 30, 30, new Block(Color.White))
-                                          .smooth(new Block(Color.White), new Block(Color.Black))
-                                          .createRooms(9, 10, 10, 30, 30, new Block(Color.White))
-                                          .smooth(new Block(Color.White), new Block(Color.Black))
-                                          .createRooms(9, 10, 10, 30, 30, new Block(Color.White))
-                                          .smooth(new Block(Color.White), new Block(Color.Black))
-                                          .createRooms(9, 10, 10, 30, 30, new Block(Color.White))
-                                          .smooth(new Block(Color.White), new Block(Color.Black))
-                                          .createRooms(9, 10, 10, 30, 30, new Block(Color.White))
-                                          .smooth(new Block(Color.White), new Block(Color.Black))
-                                          .getLevel();
+                level = new Level().fillLevel(new Block(Color.Black))
+                                    .createRooms(15, 10, 10, 30, 30, new Block(Color.White))
+                                    .smooth(new Block(Color.White), new Block(Color.Black))
+                                    .createRooms(10, 10, 10, 30, 30, new Block(Color.White))
+                                    .smooth(new Block(Color.White), new Block(Color.Black))
+                                    .createRooms(9, 10, 10, 30, 30, new Block(Color.White))
+                                    .smooth(new Block(Color.White), new Block(Color.Black))
+                                    .createRooms(8, 10, 10, 30, 30, new Block(Color.White))
+                                    .smooth(new Block(Color.White), new Block(Color.Black))
+                                    .smooth(new Block(Color.White), new Block(Color.Black));
             } while (level.getDensityScore(4, 4, 0.5, new Block(Color.White)) < 0.85 ||
-                     level.getRoomSizeScore(90, new Block(Color.White)) < 1 ||
+                     level.getRoomSizeScore(250, new Block(Color.White)) < 1 ||
                      level.getRoomSizeScore(30, new Block(Color.Black)) < 1);
         }
 
