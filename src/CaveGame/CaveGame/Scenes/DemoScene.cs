@@ -9,7 +9,7 @@ namespace CaveGame.Scenes {
         public VirtualButton leftClick;
         public VirtualButton rightClick;
 
-        public CaveView caveView;
+        public CaveEditor caveEditor;
 
         public override void initialize() {
             base.initialize();
@@ -24,8 +24,8 @@ namespace CaveGame.Scenes {
 
             // add cave view component
             var caveViewEntity = createEntity("cave_view");
-            caveView = new CaveView();
-            caveViewEntity.addComponent(caveView);
+            caveEditor = new CaveEditor();
+            caveViewEntity.addComponent(caveEditor);
 
             leftClick = new VirtualButton();
             leftClick.nodes.Add(new Nez.VirtualButton.MouseLeftButton());
@@ -40,15 +40,11 @@ namespace CaveGame.Scenes {
             Vector2 mouseLocation = Nez.Input.scaledMousePosition;
             
             if (leftClick.isDown) {
-                caveView.level.set((int) (mouseLocation.X / (Constants.DISPLAY_WIDTH / Constants.LEVEL_ROWS)),
-                                   (int) (mouseLocation.Y / (Constants.DISPLAY_HEIGHT / Constants.LEVEL_COLUMNS)),
-                                   new Block(Color.Black));
+                caveEditor.setBlock(mouseLocation.X, mouseLocation.Y);
             }
 
             if (rightClick.isDown) {
-                caveView.level.set((int)(mouseLocation.X / (Constants.DISPLAY_WIDTH / Constants.LEVEL_ROWS)),
-                                   (int)(mouseLocation.Y / (Constants.DISPLAY_HEIGHT / Constants.LEVEL_COLUMNS)),
-                                   new Block(Color.White));
+                caveEditor.selectBlock(mouseLocation.X, mouseLocation.Y);
             }
         }
     }
