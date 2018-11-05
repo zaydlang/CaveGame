@@ -9,7 +9,12 @@ namespace CaveGame {
         public const int BUFFER_ZONE      = 10;
         public static Color TOOLBOX_COLOR = Color.LightGray;
         public static Color BUFFER_COLOR  = Color.Black;
-        
+
+        // Blocks
+        public static Color SOLID_BLOCK_COLOR     = Color.Gray;
+        public static Color AIR_BLOCK_COLOR       = Color.White;
+        public static Color ENTERANCE_BLOCK_COLOR = Color.LightGreen;
+
         // Level.cs
         public const int LEVEL_ROWS          = 80;
         public const int LEVEL_COLUMNS       = 60;
