@@ -30,6 +30,9 @@ namespace CaveGame {
         // Scenes
         public const int GAME_WIDTH = CAVE_WIDTH + BUFFER_ZONE * 3 + (CAVE_WIDTH / LEVEL_ROWS) * 2;
         public const int GAME_HEIGHT = CAVE_HEIGHT + BUFFER_ZONE * 2;
+        
+        // Tilemap
+        public const int TILE_SIZE = 16;
 
     }
 }

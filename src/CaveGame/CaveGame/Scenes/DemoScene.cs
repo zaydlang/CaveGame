@@ -1,7 +1,9 @@
 ﻿using CaveGame.Cavegen;
 using CaveGame.Components;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Nez;
+using Nez.Tiled;
 
 namespace CaveGame.Scenes {
     public class DemoScene : Scene {
@@ -31,6 +33,15 @@ namespace CaveGame.Scenes {
 
             rightClick = new VirtualButton();
             rightClick.nodes.Add(new VirtualButton.MouseRightButton());
+            
+            
+            /*
+             * How to make a TiledMap
+             */
+//            var map = new TiledMap(0, Constants.CAVE_WIDTH, Constants.CAVE_HEIGHT, Constants.TILE_SIZE, Constants.TILE_SIZE);
+//            var tilesetTexture = default(Texture2D); // TODO: !!! IMPORTANT replace this with an actual tileset texture
+//            var tileset = map.createTileset(tilesetTexture, 0, Constants.TILE_SIZE, Constants.TILE_SIZE, true, 0, 0);
+//            var tileLayer = map.createTileLayer("walls", map.width, map.height, level.bake(tileset));
         }
 
         public override void update() {

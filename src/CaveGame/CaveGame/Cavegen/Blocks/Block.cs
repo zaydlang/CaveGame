@@ -36,6 +36,6 @@ namespace CaveGame.Cavegen {
 
         }
         
-        public override int id => 9;
+        public override int id => 2;
     }
 }
