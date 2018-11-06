@@ -1,33 +1,47 @@
 ﻿using System;
 using System.Collections;
+using Nez.Tiled;
 
 namespace CaveGame.Cavegen {
     public class Level {
-        private Block[,] levelMap;
+        private Block[,] data;
 
         public Level() {
-            levelMap = new Block[Constants.LEVEL_ROWS, Constants.LEVEL_COLUMNS];
+            data = new Block[Constants.LEVEL_ROWS, Constants.LEVEL_COLUMNS];
         }
 
         public void set(int i, int j, Block block) {
             if (i < 0 || i > Constants.LEVEL_ROWS) return;
             if (j < 0 || j > Constants.LEVEL_COLUMNS) return;
-            levelMap[i, j] = block;
+            data[i, j] = block;
         }
 
         public Block get(int i, int j) {
-            return levelMap[i, j];
+            return data[i, j];
         }
 
         public Level clone() {
             Level clone = new Level();
             for (int i = 0; i < Constants.LEVEL_ROWS; i++) {
                 for (int j = 0; j < Constants.LEVEL_COLUMNS; j++) {
-                    clone.set(i, j, levelMap[i, j]);
+                    clone.set(i, j, data[i, j]);
                 }
             }
 
             return clone;
+        }
+
+        public TiledTile[] bake() {
+            var tmap = new TiledTile[data.GetLength(0) * data.GetLength(1)];
+            var mw = tmap.GetLength(0);
+            var mh = tmap.GetLength(1);
+            for (var i = 0; i < mw; i++) {
+                for (var j = 0; j < mh; j++) {
+                    tmap[i * mw + j] = new TiledTile(data[i, j].id);
+                }
+            }
+
+            return tmap;
         }
 
         public double getDensityScore(int x, int y, double threshold, Block searchBlock) {
@@ -37,7 +51,7 @@ namespace CaveGame.Cavegen {
                     int numAlive = 0;
                     for (int k = i * (Constants.LEVEL_ROWS / x); k < (i + 1) * (Constants.LEVEL_ROWS / x); k++) {
                         for (int l = j * (Constants.LEVEL_COLUMNS / y); l < (j + 1) * (Constants.LEVEL_COLUMNS / y); l++) {
-                            if (levelMap[k, l].getColor() == searchBlock.getColor()) {
+                            if (data[k, l].getColor() == searchBlock.getColor()) {
                                 numAlive++;
                             }
                         }
@@ -57,7 +71,7 @@ namespace CaveGame.Cavegen {
             bool[,] isMarked = new bool[Constants.LEVEL_ROWS, Constants.LEVEL_COLUMNS]; // default values of false
             for (int i = 0; i < Constants.LEVEL_ROWS; i++) {
                 for (int j = 0; j < Constants.LEVEL_COLUMNS; j++) {
-                    if (!isMarked[i, j] && levelMap[i, j].getColor() == searchBlock.getColor()) {
+                    if (!isMarked[i, j] && data[i, j].getColor() == searchBlock.getColor()) {
                         int roomSize = 0;
                         Stack blocksToSearch = new Stack();
                         blocksToSearch.Push(i);
@@ -65,22 +79,22 @@ namespace CaveGame.Cavegen {
                         while (blocksToSearch.Count != 0) {
                             int y = (int)blocksToSearch.Pop();
                             int x = (int)blocksToSearch.Pop(); // i'm using a stack
-                            if (x != Constants.LEVEL_ROWS - 1 && levelMap[x + 1, y].getColor() == searchBlock.getColor() && !isMarked[x + 1, y]) {
+                            if (x != Constants.LEVEL_ROWS - 1 && data[x + 1, y].getColor() == searchBlock.getColor() && !isMarked[x + 1, y]) {
                                 blocksToSearch.Push(x + 1);
                                 blocksToSearch.Push(y);
                                 isMarked[x + 1, y] = true;
                             }
-                            if (x != 0 && levelMap[x - 1, y].getColor() == searchBlock.getColor() && !isMarked[x - 1, y]) {
+                            if (x != 0 && data[x - 1, y].getColor() == searchBlock.getColor() && !isMarked[x - 1, y]) {
                                 blocksToSearch.Push(x - 1);
                                 blocksToSearch.Push(y);
                                 isMarked[x - 1, y] = true;
                             }
-                            if (y != Constants.LEVEL_COLUMNS - 1 && levelMap[x, y + 1].getColor() == searchBlock.getColor() && !isMarked[x, y + 1]) {
+                            if (y != Constants.LEVEL_COLUMNS - 1 && data[x, y + 1].getColor() == searchBlock.getColor() && !isMarked[x, y + 1]) {
                                 blocksToSearch.Push(x);
                                 blocksToSearch.Push(y + 1);
                                 isMarked[x, y + 1] = true;
                             }
-                            if (y != 0 && levelMap[x, y - 1].getColor() == searchBlock.getColor() && !isMarked[x, y - 1]) {
+                            if (y != 0 && data[x, y - 1].getColor() == searchBlock.getColor() && !isMarked[x, y - 1]) {
                                 blocksToSearch.Push(x);
                                 blocksToSearch.Push(y - 1);
                                 isMarked[x, y - 1] = true;

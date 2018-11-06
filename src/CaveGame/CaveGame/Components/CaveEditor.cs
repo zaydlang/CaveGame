@@ -14,23 +14,25 @@ namespace CaveGame.Components {
         public Block selectedBlock { get; set; }
 
         public CaveEditor() {
+            toolbox = new Block[] {new SolidBlock(), new AirBlock(), new EnteranceBlock()};
+            selectedBlock = toolbox[0];
+        }
+
+        public void generate() {
             do {
                 level = new Level().fillLevel(new SolidBlock())
-                                    .createRooms(15, 10, 10, 30, 30, new AirBlock())
-                                    .smooth(new AirBlock(), new SolidBlock())
-                                    .createRooms(10, 10, 10, 30, 30, new AirBlock())
-                                    .smooth(new AirBlock(), new SolidBlock())
-                                    .createRooms(9, 10, 10, 30, 30, new AirBlock())
-                                    .smooth(new AirBlock(), new SolidBlock())
-                                    .createRooms(8, 10, 10, 30, 30, new AirBlock())
-                                    .smooth(new AirBlock(), new SolidBlock())
-                                    .smooth(new AirBlock(), new SolidBlock());
+                    .createRooms(15, 10, 10, 30, 30, new AirBlock())
+                    .smooth(new AirBlock(), new SolidBlock())
+                    .createRooms(10, 10, 10, 30, 30, new AirBlock())
+                    .smooth(new AirBlock(), new SolidBlock())
+                    .createRooms(9, 10, 10, 30, 30, new AirBlock())
+                    .smooth(new AirBlock(), new SolidBlock())
+                    .createRooms(8, 10, 10, 30, 30, new AirBlock())
+                    .smooth(new AirBlock(), new SolidBlock())
+                    .smooth(new AirBlock(), new SolidBlock());
             } while (level.getDensityScore(4, 4, 0.5, new AirBlock()) < 0.85 ||
                      level.getRoomSizeScore(250, new AirBlock()) < 1 ||
                      level.getRoomSizeScore(30, new SolidBlock()) < 1);
-
-            toolbox = new Block[] {new SolidBlock(), new AirBlock(), new EnteranceBlock()};
-            selectedBlock = toolbox[0];
         }
 
         public override void render(Graphics graphics, Camera camera) {

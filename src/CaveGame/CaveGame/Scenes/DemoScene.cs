@@ -1,5 +1,4 @@
-﻿using System;
-using CaveGame.Cavegen;
+﻿using CaveGame.Cavegen;
 using CaveGame.Components;
 using Microsoft.Xna.Framework;
 using Nez;
@@ -24,20 +23,20 @@ namespace CaveGame.Scenes {
 
             // add cave view component
             var caveViewEntity = createEntity("cave_view");
-            caveEditor = new CaveEditor();
-            caveViewEntity.addComponent(caveEditor);
+            caveEditor = caveViewEntity.addComponent(new CaveEditor());
+            caveEditor.generate();
 
             leftClick = new VirtualButton();
-            leftClick.nodes.Add(new Nez.VirtualButton.MouseLeftButton());
+            leftClick.nodes.Add(new VirtualButton.MouseLeftButton());
 
             rightClick = new VirtualButton();
-            rightClick.nodes.Add(new Nez.VirtualButton.MouseRightButton());
+            rightClick.nodes.Add(new VirtualButton.MouseRightButton());
         }
 
         public override void update() {
             base.update();
 
-            Vector2 mouseLocation = Nez.Input.scaledMousePosition;
+            Vector2 mouseLocation = Input.scaledMousePosition;
             
             if (leftClick.isDown) {
                 caveEditor.setBlock(mouseLocation.X, mouseLocation.Y);
