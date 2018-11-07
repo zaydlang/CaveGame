@@ -17,6 +17,8 @@ namespace CaveGame.Scenes {
 
         public Entity mapEntity;
 
+        public string mode = "editting";
+
         public override void initialize() {
             base.initialize();
 
@@ -60,20 +62,21 @@ namespace CaveGame.Scenes {
                 caveEditor.selectBlock(mouseLocation.X, mouseLocation.Y);
             }
 
-            if (play.isDown && !edit.isDown) {
+            if (play.isDown && mode == "editting") {
                 TiledMap map = new TiledMap(0, Constants.LEVEL_ROWS, Constants.LEVEL_COLUMNS, Constants.TILE_WIDTH, Constants.TILE_HEIGHT);
                 Texture2D tilesetTexture = GlintCore.contentSource.Load<Texture2D>("spritesheet");
                 TiledTileset tileset = map.createTileset(tilesetTexture, 0, Constants.TILE_WIDTH, Constants.TILE_HEIGHT, true, 0, 0, 3, 3);
                 TiledLayer tileLayer = map.createTileLayer("walls", map.width, map.height, caveEditor.level.bake(tileset));
                 TiledTile[] tiles = caveEditor.level.bake(tileset);
-                mapEntity = createEntity("map_tiles");
+                mapEntity = this.createEntity("map_tiles");
                 mapEntity.setPosition(Constants.BUFFER_ZONE, Constants.BUFFER_ZONE);
                 mapEntity.addComponent(new TiledMapComponent(map, "walls"));
+                mode = "playing";
             }
 
-            if (edit.isDown && !play.isDown) {
-                mapEntity.attachToScene(this);
-                mapEntity.destroy();
+            if (edit.isDown && mode == "playing") {
+                entities.findEntity("map_tiles").removeComponent<TiledMapComponent>();
+                mode = "editting";
             }
         }
     }
