@@ -32,12 +32,12 @@ namespace CaveGame.Cavegen {
         }
 
         public TiledTile[] bake(TiledTileset tileset) {
-            var tmap = new TiledTile[data.GetLength(0) * data.GetLength(1)];
-            var mw = tmap.GetLength(0);
-            var mh = tmap.GetLength(1);
-            for (var i = 0; i < mw; i++) {
-                for (var j = 0; j < mh; j++) {
-                    tmap[i * mw + j] = new TiledTile(data[i, j].id) { tileset = tileset};
+            TiledTile[] tmap = new TiledTile[data.GetLength(0) * data.GetLength(1)];
+            var mw = data.GetLength(0);
+            var mh = data.GetLength(1);
+            for (var j = 0; j < mh; j++) {
+                for (var i = 0; i < mw; i++) {
+                    tmap[j * mw + i] = new TiledTile(data[i, j].id) { tileset = tileset };
                 }
             }
 

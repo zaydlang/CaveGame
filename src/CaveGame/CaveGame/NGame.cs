@@ -8,7 +8,7 @@ namespace CaveGame {
         protected override void Initialize() {
             base.Initialize();
             
-            scene = new DemoScene();
+            scene = new EditorScene();
         }
     }
 }

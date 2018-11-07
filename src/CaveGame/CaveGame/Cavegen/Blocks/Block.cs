@@ -20,7 +20,7 @@ namespace CaveGame.Cavegen {
 
         }
 
-        public override int id => 1;
+        public override int id => 0;
     }
 
     public class AirBlock : Block {
@@ -28,7 +28,7 @@ namespace CaveGame.Cavegen {
 
         }
         
-        public override int id => 0;
+        public override int id => 1;
     }
 
     public class EnteranceBlock : Block {

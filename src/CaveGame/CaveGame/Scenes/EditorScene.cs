@@ -8,10 +8,14 @@ using Glint;
 
 namespace CaveGame.Scenes {
     public class EditorScene : Scene {
-        public VirtualButton leftClick;
-        public VirtualButton rightClick;
+        public Nez.VirtualButton leftClick;
+        public Nez.VirtualButton rightClick;
+        public Nez.VirtualButton play;
+        public Nez.VirtualButton edit;
 
         public CaveEditor caveEditor;
+
+        public Entity mapEntity;
 
         public override void initialize() {
             base.initialize();
@@ -19,34 +23,28 @@ namespace CaveGame.Scenes {
             // setup
             addRenderer(new DefaultRenderer());
             clearColor = Color.White;
-            
-            // generate level
-            // TODO: generate this according to GoodStuff(TM)
-            var level = new Level();
 
             // add cave view component
             var caveViewEntity = createEntity("cave_view");
             caveEditor = caveViewEntity.addComponent(new CaveEditor());
             caveEditor.generate();
 
-            leftClick = new VirtualButton();
-            leftClick.nodes.Add(new VirtualButton.MouseLeftButton());
+            leftClick = new Nez.VirtualButton();
+            leftClick.nodes.Add(new Nez.VirtualButton.MouseLeftButton());
 
-            rightClick = new VirtualButton();
-            rightClick.nodes.Add(new VirtualButton.MouseRightButton());
+            rightClick = new Nez.VirtualButton();
+            rightClick.nodes.Add(new Nez.VirtualButton.MouseRightButton());
             
             
             /*
              * How to make a TiledMap
              */
-            TiledMap map = new TiledMap(0, Constants.CAVE_WIDTH, Constants.CAVE_HEIGHT, Constants.TILE_SIZE, Constants.TILE_SIZE);
-            Texture2D tilesetTexture = GlintCore.contentSource.Load<Texture2D>("spritesheet.png"); 
-            TileSet tileset = map.createTileset(tilesetTexture, 0, Constants.TILE_SIZE, Constants.TILE_SIZE, true, 0, 0);
-            TileLayer tileLayer = map.createTileLayer("walls", map.width, map.height, level.bake(tileset));
 
-            Entity mapEntity = createEntity("level_tiles");
-            Component mapComponent = mapEntity.addComponent(new PlayTester(map));
-            mapComponent.renderLayer = renderlayer_background;
+            play = new Nez.VirtualButton();
+            play.nodes.Add(new Nez.VirtualButton.KeyboardKey(Microsoft.Xna.Framework.Input.Keys.P));
+
+            edit = new Nez.VirtualButton();
+            edit.nodes.Add(new Nez.VirtualButton.KeyboardKey(Microsoft.Xna.Framework.Input.Keys.E));
         }
 
         public override void update() {
@@ -60,6 +58,22 @@ namespace CaveGame.Scenes {
 
             if (rightClick.isDown) {
                 caveEditor.selectBlock(mouseLocation.X, mouseLocation.Y);
+            }
+
+            if (play.isDown && !edit.isDown) {
+                TiledMap map = new TiledMap(0, Constants.LEVEL_ROWS, Constants.LEVEL_COLUMNS, Constants.TILE_WIDTH, Constants.TILE_HEIGHT);
+                Texture2D tilesetTexture = GlintCore.contentSource.Load<Texture2D>("spritesheet");
+                TiledTileset tileset = map.createTileset(tilesetTexture, 0, Constants.TILE_WIDTH, Constants.TILE_HEIGHT, true, 0, 0, 3, 3);
+                TiledLayer tileLayer = map.createTileLayer("walls", map.width, map.height, caveEditor.level.bake(tileset));
+                TiledTile[] tiles = caveEditor.level.bake(tileset);
+                mapEntity = createEntity("map_tiles");
+                mapEntity.setPosition(Constants.BUFFER_ZONE, Constants.BUFFER_ZONE);
+                mapEntity.addComponent(new TiledMapComponent(map, "walls"));
+            }
+
+            if (edit.isDown && !play.isDown) {
+                mapEntity.attachToScene(this);
+                mapEntity.destroy();
             }
         }
     }
