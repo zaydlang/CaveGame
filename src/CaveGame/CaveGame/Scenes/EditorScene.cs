@@ -17,7 +17,12 @@ namespace CaveGame.Scenes {
 
         public Entity mapEntity;
 
-        public string mode = "editting";
+        enum Mode : int {
+            editting,
+            playing
+        }
+
+        public int mode = (int) Mode.editting;
 
         public override void initialize() {
             base.initialize();
@@ -36,17 +41,14 @@ namespace CaveGame.Scenes {
 
             rightClick = new Nez.VirtualButton();
             rightClick.nodes.Add(new Nez.VirtualButton.MouseRightButton());
-            
-            
-            /*
-             * How to make a TiledMap
-             */
 
             play = new Nez.VirtualButton();
             play.nodes.Add(new Nez.VirtualButton.KeyboardKey(Microsoft.Xna.Framework.Input.Keys.P));
 
             edit = new Nez.VirtualButton();
             edit.nodes.Add(new Nez.VirtualButton.KeyboardKey(Microsoft.Xna.Framework.Input.Keys.E));
+
+            mapEntity = this.createEntity("map_tiles");
         }
 
         public override void update() {
@@ -62,21 +64,20 @@ namespace CaveGame.Scenes {
                 caveEditor.selectBlock(mouseLocation.X, mouseLocation.Y);
             }
 
-            if (play.isDown && mode == "editting") {
+            if (play.isDown && mode == (int) Mode.editting) {
                 TiledMap map = new TiledMap(0, Constants.LEVEL_ROWS, Constants.LEVEL_COLUMNS, Constants.TILE_WIDTH, Constants.TILE_HEIGHT);
                 Texture2D tilesetTexture = GlintCore.contentSource.Load<Texture2D>("spritesheet");
                 TiledTileset tileset = map.createTileset(tilesetTexture, 0, Constants.TILE_WIDTH, Constants.TILE_HEIGHT, true, 0, 0, 3, 3);
                 TiledLayer tileLayer = map.createTileLayer("walls", map.width, map.height, caveEditor.level.bake(tileset));
                 TiledTile[] tiles = caveEditor.level.bake(tileset);
-                mapEntity = this.createEntity("map_tiles");
                 mapEntity.setPosition(Constants.BUFFER_ZONE, Constants.BUFFER_ZONE);
                 mapEntity.addComponent(new TiledMapComponent(map, "walls"));
-                mode = "playing";
+                mode = (int) Mode.playing;
             }
 
-            if (edit.isDown && mode == "playing") {
-                entities.findEntity("map_tiles").removeComponent<TiledMapComponent>();
-                mode = "editting";
+            if (edit.isDown && mode == (int) Mode.playing) {
+                mapEntity.removeComponent<TiledMapComponent>();
+                mode = (int) Mode.editting;
             }
         }
     }
