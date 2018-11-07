@@ -16,6 +16,7 @@ namespace CaveGame.Scenes {
         public CaveEditor caveEditor;
 
         public Entity mapEntity;
+        public Entity playerEntity;
 
         enum Mode : int {
             editting,
@@ -49,6 +50,7 @@ namespace CaveGame.Scenes {
             edit.nodes.Add(new Nez.VirtualButton.KeyboardKey(Microsoft.Xna.Framework.Input.Keys.E));
 
             mapEntity = this.createEntity("map_tiles");
+            playerEntity = this.createEntity("player");
         }
 
         public override void update() {
@@ -72,6 +74,8 @@ namespace CaveGame.Scenes {
                 TiledTile[] tiles = caveEditor.level.bake(tileset);
                 mapEntity.setPosition(Constants.BUFFER_ZONE, Constants.BUFFER_ZONE);
                 mapEntity.addComponent(new TiledMapComponent(map, "walls"));
+
+                playerEntity.addComponent(new PlayerComponent());
                 mode = (int) Mode.playing;
             }
 
