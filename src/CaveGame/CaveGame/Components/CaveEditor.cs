@@ -14,7 +14,7 @@ namespace CaveGame.Components {
         public Block selectedBlock { get; set; }
 
         public CaveEditor() {
-            toolbox = new Block[] {new SolidBlock(), new AirBlock(), new EnteranceBlock()};
+            toolbox = new Block[] {new SolidBlock(), new AirBlock(), new EntranceBlock(), new TorchBlock()};
             selectedBlock = toolbox[0];
         }
 

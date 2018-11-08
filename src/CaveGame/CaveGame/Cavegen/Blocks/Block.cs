@@ -31,11 +31,19 @@ namespace CaveGame.Cavegen {
         public override int id => 1;
     }
 
-    public class EnteranceBlock : Block {
-        public EnteranceBlock() : base(Constants.ENTERANCE_BLOCK_COLOR) {
+    public class EntranceBlock : Block {
+        public EntranceBlock() : base(Constants.ENTRANCE_BLOCK_COLOR) {
 
         }
         
         public override int id => 2;
+    }
+
+    public class TorchBlock : Block {
+        public TorchBlock() : base(Constants.TORCH_BLOCK_COLOR) {
+
+        }
+
+        public override int id => 3;
     }
 }
