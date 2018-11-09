@@ -70,17 +70,18 @@ namespace CaveGame.Scenes {
                 TiledMap map = new TiledMap(0, Constants.LEVEL_ROWS, Constants.LEVEL_COLUMNS, Constants.TILE_WIDTH, Constants.TILE_HEIGHT);
                 Texture2D tilesetTexture = GlintCore.contentSource.Load<Texture2D>("spritesheet");
                 TiledTileset tileset = map.createTileset(tilesetTexture, 0, Constants.TILE_WIDTH, Constants.TILE_HEIGHT, true, 0, 0, 3, 3);
-                TiledLayer tileLayer = map.createTileLayer("walls", map.width, map.height, caveEditor.level.bake(tileset));
+                map.createTileLayer("walls", map.width, map.height, caveEditor.level.bake(tileset));
+                map.createTileLayer("lighting", map.width, map.height, caveEditor.level.bake(tileset));
                 TiledTile[] tiles = caveEditor.level.bake(tileset);
                 mapEntity.setPosition(Constants.BUFFER_ZONE, Constants.BUFFER_ZONE);
-                mapEntity.addComponent(new TiledMapComponent(map, "walls"));
+                mapEntity.addComponent(new LevelComponent(map, "walls"));
 
                 playerEntity.addComponent(new PlayerComponent());
                 mode = (int) Mode.playing;
             }
 
             if (edit.isDown && mode == (int) Mode.playing) {
-                mapEntity.removeComponent<TiledMapComponent>();
+                mapEntity.removeComponent<LevelComponent>();
                 mode = (int) Mode.editting;
             }
         }

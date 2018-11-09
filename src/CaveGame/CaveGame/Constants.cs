@@ -15,6 +15,7 @@ namespace CaveGame {
         public static Color AIR_BLOCK_COLOR       = Color.White;
         public static Color ENTRANCE_BLOCK_COLOR  = Color.LightGreen;
         public static Color TORCH_BLOCK_COLOR     = Color.Yellow;
+        public static int TORCH_BLOCK_RADIUS = 5;
 
         // Level.cs
         public const int LEVEL_ROWS          = 80;
