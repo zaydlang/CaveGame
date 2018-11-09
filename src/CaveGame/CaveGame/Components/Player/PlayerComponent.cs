@@ -13,7 +13,8 @@ namespace CaveGame.Components {
         }
 
         public override void render(Graphics graphics, Camera camera) {
-            throw new NotImplementedException();
+
+
         }
     }
 }
