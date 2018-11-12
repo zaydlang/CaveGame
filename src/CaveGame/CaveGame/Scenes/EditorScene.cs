@@ -1,4 +1,5 @@
-﻿using CaveGame.Cavegen;
+﻿using System;
+using CaveGame.Cavegen;
 using CaveGame.Components;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -69,19 +70,26 @@ namespace CaveGame.Scenes {
             if (play.isDown && mode == (int) Mode.editting) {
                 TiledMap map = new TiledMap(0, Constants.LEVEL_ROWS, Constants.LEVEL_COLUMNS, Constants.TILE_WIDTH, Constants.TILE_HEIGHT);
                 Texture2D tilesetTexture = GlintCore.contentSource.Load<Texture2D>("spritesheet");
-                TiledTileset tileset = map.createTileset(tilesetTexture, 0, Constants.TILE_WIDTH, Constants.TILE_HEIGHT, true, 0, 0, 4, 4);
+                TiledTileset tileset = map.createTileset(tilesetTexture, 0, Constants.TILE_WIDTH, Constants.TILE_HEIGHT, true, 0, 0, 4, 1);
                 map.createTileLayer("walls", map.width, map.height, caveEditor.level.bake(tileset));
-                map.createTileLayer("lighting", map.width, map.height, caveEditor.level.bake(tileset));
+                //map.createTileLayer("lighting", map.width, map.height, caveEditor.level.bake(tileset));
                 TiledTile[] tiles = caveEditor.level.bake(tileset);
                 mapEntity.setPosition(Constants.BUFFER_ZONE, Constants.BUFFER_ZONE);
-                mapEntity.addComponent(new LevelComponent(map, "walls"));
+                mapEntity.addComponent(new TiledMapComponent(map, "walls"));
 
                 playerEntity.addComponent(new PlayerComponent());
+                playerEntity.addComponent(new TiledMapMover(map.getLayer<TiledTileLayer>("walls")));
+                playerEntity.addComponent(new BoxCollider(Constants.PLAYER_WIDTH, Constants.PLAYER_HEIGHT, Constants.PLAYER_WIDTH / 2, Constants.PLAYER_HEIGHT / 2));
+                Console.WriteLine(caveEditor.level.spawn.X + " " + caveEditor.level.spawn.Y);
+                playerEntity.setPosition(caveEditor.level.spawn.X, caveEditor.level.spawn.Y);
                 mode = (int) Mode.playing;
             }
 
             if (edit.isDown && mode == (int) Mode.playing) {
                 mapEntity.removeComponent<LevelComponent>();
+                playerEntity.removeComponent<TiledMapMover>();
+                playerEntity.removeComponent<BoxCollider>();
+                playerEntity.removeComponent<PlayerComponent>();
                 mode = (int) Mode.editting;
             }
         }

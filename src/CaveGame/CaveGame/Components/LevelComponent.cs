@@ -6,18 +6,13 @@ using Nez.Tiled;
 
 namespace CaveGame.Components {
     public class LevelComponent : TiledMapComponent, IUpdatable {
-        enum Id {
-            Solid,
-            Air,
-            Entrance,
-            Torch
-        }
 
         public LevelComponent(TiledMap tiledMap, String name) : base(tiledMap, name) {
 
         }
 
         void IUpdatable.update() {
+            /*
             tiledMap.update();
             for (int a = 0; a < tiledMap.layers.Count; a++) {
                 TiledTileLayer currentLayer = (TiledTileLayer) this.tiledMap.layers[a];
@@ -43,7 +38,7 @@ namespace CaveGame.Components {
                         }
                     }
                 }
-            }
+            }*/
         }
     }
 }

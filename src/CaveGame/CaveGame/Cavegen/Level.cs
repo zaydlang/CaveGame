@@ -1,19 +1,34 @@
 ﻿using System;
 using System.Collections;
+using Microsoft.Xna.Framework;
 using Nez.Tiled;
 
 namespace CaveGame.Cavegen {
     public class Level {
+        public Vector2 spawn;
+
         private Block[,] data;
 
         public Level() {
             data = new Block[Constants.LEVEL_ROWS, Constants.LEVEL_COLUMNS];
+            spawn.X = -1;
+            spawn.Y = -1;
         }
 
         public void set(int i, int j, Block block) {
             if (i < 0 || i > Constants.LEVEL_ROWS) return;
             if (j < 0 || j > Constants.LEVEL_COLUMNS) return;
             data[i, j] = block;
+
+            // Entrance
+            if (block.id == (int)Constants.Id.Entrance) {
+                // We know if X is -1, then Y is -1 because of the constructor. Unless something went horribly wrong.
+                // Also I want to check if the player isnt simply holding the button in the same spot.
+                if (spawn.X != -1 && spawn.X != i && spawn.Y != j)
+                    data[(int) spawn.X, (int)spawn.Y] = new AirBlock();
+                spawn.X = i;
+                spawn.Y = j;
+            }
         }
 
         public Block get(int i, int j) {
@@ -37,7 +52,8 @@ namespace CaveGame.Cavegen {
             var mh = data.GetLength(1);
             for (var j = 0; j < mh; j++) {
                 for (var i = 0; i < mw; i++) {
-                    tmap[j * mw + i] = new TiledTile(data[i, j].id) { tileset = tileset };
+                    if (data[i, j].id == (int) Constants.Id.Solid)
+                        tmap[j * mw + i] = new TiledTile(data[i, j].id) { tileset = tileset };
                 }
             }
 
