@@ -37,7 +37,10 @@ namespace CaveGame {
         // Tilemap
         public const int TILE_WIDTH  = CAVE_WIDTH / LEVEL_ROWS;
         public const int TILE_HEIGHT = CAVE_HEIGHT / LEVEL_COLUMNS;
-        public const double GRAVITY  = 350;
+        public const double GRAVITY  = 650;
+
+        // Water
+        public const int BOUYANT_FORCE = 1000;
 
         // Enum
         public enum Id {
@@ -46,6 +49,11 @@ namespace CaveGame {
             Entrance,
             Torch,
             Water
+        }
+
+        public enum Layer {
+            Water,
+            Walls
         }
     }
 }

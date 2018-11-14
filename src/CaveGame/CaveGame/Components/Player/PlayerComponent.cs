@@ -44,8 +44,25 @@ namespace CaveGame.Components {
             grounded = false;
             velocity.Y += (float) Constants.GRAVITY * Time.deltaTime;
 
+            // water collision
+            TiledTileLayer waterLayer = (TiledTileLayer)entity.scene.entities.findEntity("map_tiles")
+                                                               .getComponent<TiledMapComponent>()
+                                                               .tiledMap.getLayer((int)Constants.Layer.Water);
+            List<TiledTile> waterTiles = waterLayer.getTilesIntersectingBounds(new Rectangle((int)entity.position.X,
+                                                                                             (int)entity.position.Y,
+                                                                                             Constants.PLAYER_WIDTH,
+                                                                                             Constants.PLAYER_HEIGHT));
+            foreach (TiledTile tile in waterTiles) {
+                Console.WriteLine(tile);
+                if (tile.id == (int)Constants.Id.Water) {
+                    velocity.Y -= Constants.BOUYANT_FORCE * Time.deltaTime;
+                    break;
+                }
+            }
+
             var motion = velocity * Time.deltaTime;
-            
+
+            // wall collision
             collisions.Clear();
             if (collider.collidesWithAnyMultiple(motion, collisions)) {
                 for (int i = 0; i < collisions.Count; i++) {
