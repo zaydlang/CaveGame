@@ -44,7 +44,8 @@ namespace CaveGame {
             Solid,
             Air,
             Entrance,
-            Torch
+            Torch,
+            Water
         }
     }
 }

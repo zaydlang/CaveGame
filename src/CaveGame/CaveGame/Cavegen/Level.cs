@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Nez.Tiled;
+using Glint;
 
 namespace CaveGame.Cavegen {
     public class Level {
         public Vector2 spawn;
+        private int waterLevel;
 
         private Block[,] data;
 
@@ -13,6 +16,7 @@ namespace CaveGame.Cavegen {
             data = new Block[Constants.LEVEL_ROWS, Constants.LEVEL_COLUMNS];
             spawn.X = -1;
             spawn.Y = -1;
+            waterLevel = 0;
         }
 
         public void set(int i, int j, Block block) {
@@ -46,18 +50,36 @@ namespace CaveGame.Cavegen {
             return clone;
         }
 
-        public TiledTile[] bake(TiledTileset tileset) {
-            TiledTile[] tmap = new TiledTile[data.GetLength(0) * data.GetLength(1)];
-            var mw = data.GetLength(0);
-            var mh = data.GetLength(1);
-            for (var j = 0; j < mh; j++) {
-                for (var i = 0; i < mw; i++) {
+        public TiledMap bake() {
+            // initializing
+            TiledMap map = new TiledMap(0, Constants.LEVEL_ROWS, Constants.LEVEL_COLUMNS, Constants.TILE_WIDTH, Constants.TILE_HEIGHT);
+            Texture2D tilesetTexture = GlintCore.contentSource.Load<Texture2D>("spritesheet");
+            TiledTileset tiledTileset = map.createTileset(tilesetTexture, 0, Constants.TILE_WIDTH, Constants.TILE_HEIGHT, true, 0, 0, 4, 1);
+
+            // creating the collidable tiledtile[]
+            TiledTile[] collidableTiles = new TiledTile[data.GetLength(0) * data.GetLength(1)];
+            int mw = data.GetLength(0);
+            int mh = data.GetLength(1);
+            for (int j = 0; j < mh; j++) {
+                for (int i = 0; i < mw; i++) {
                     if (data[i, j].id == (int) Constants.Id.Solid)
-                        tmap[j * mw + i] = new TiledTile(data[i, j].id) { tileset = tileset };
+                        collidableTiles[j * mw + i] = new TiledTile(data[i, j].id) { tileset = tiledTileset };
                 }
             }
 
-            return tmap;
+            // creating the water tiledtile[]
+            TiledTile[] waterTiles = new TiledTile[data.GetLength(0) * data.GetLength(1)];
+            for (int i = 0; i < Constants.CAVE_WIDTH; i++) {
+                for (int j = Constants.CAVE_HEIGHT - waterLevel; j < Constants.CAVE_HEIGHT; j++) {
+                        waterTiles[j * mw + i] = new TiledTile((int) Constants.Id.Water) { tileset = tiledTileset };
+                }
+            }
+
+            // adding the layers together
+            map.createTileLayer("walls", map.width, map.height, collidableTiles);
+            map.createTileLayer("water", map.width, map.height, waterTiles);
+
+            return map;
         }
 
         public double getDensityScore(int x, int y, double threshold, Block searchBlock) {

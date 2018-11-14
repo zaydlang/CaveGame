@@ -50,7 +50,7 @@ namespace CaveGame.Components {
             if (collider.collidesWithAnyMultiple(motion, collisions)) {
                 for (int i = 0; i < collisions.Count; i++) {
                     motion -= collisions[i].minimumTranslationVector;
-                    Console.WriteLine(collisions[i].normal);
+                    Console.WriteLine(entity.position);
 
                     if (Math.Abs(collisions[i].normal.Y) == 1) {
                         velocity.Y = 0;
