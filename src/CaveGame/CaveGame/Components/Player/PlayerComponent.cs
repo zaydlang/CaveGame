@@ -48,8 +48,8 @@ namespace CaveGame.Components {
             TiledTileLayer waterLayer = (TiledTileLayer)entity.scene.entities.findEntity("map_tiles")
                                                                .getComponent<TiledMapComponent>()
                                                                .tiledMap.getLayer((int)Constants.Layer.Water);
-            List<TiledTile> waterTiles = waterLayer.getTilesIntersectingBounds(new Rectangle((int)entity.position.X,
-                                                                                             (int)entity.position.Y,
+            List<TiledTile> waterTiles = waterLayer.getTilesIntersectingBounds(new Rectangle((int)entity.position.X - Constants.BUFFER_ZONE,
+                                                                                             (int)entity.position.Y - Constants.BUFFER_ZONE,
                                                                                              Constants.PLAYER_WIDTH,
                                                                                              Constants.PLAYER_HEIGHT));
             foreach (TiledTile tile in waterTiles) {

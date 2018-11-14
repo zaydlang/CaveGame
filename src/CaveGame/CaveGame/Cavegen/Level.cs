@@ -8,7 +8,7 @@ using Glint;
 namespace CaveGame.Cavegen {
     public class Level {
         public Vector2 spawn;
-        private int waterLevel;
+        public int waterLevel;
 
         private Block[,] data;
 

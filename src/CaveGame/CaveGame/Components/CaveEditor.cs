@@ -14,7 +14,7 @@ namespace CaveGame.Components {
         public Block selectedBlock { get; set; }
 
         public CaveEditor() {
-            toolbox = new Block[] {new SolidBlock(), new AirBlock(), new EntranceBlock(), new TorchBlock()};
+            toolbox = new Block[] {new SolidBlock(), new AirBlock(), new EntranceBlock(), new TorchBlock(), new WaterBlock()};
             selectedBlock = toolbox[0];
         }
 
@@ -39,10 +39,25 @@ namespace CaveGame.Components {
             var g = graphics.batcher;
 
             g.drawRect(0, 0, Constants.GAME_WIDTH, Constants.GAME_HEIGHT, Constants.BUFFER_COLOR);
+            g.drawRect(Constants.BUFFER_ZONE, Constants.BUFFER_ZONE, Constants.CAVE_WIDTH, Constants.CAVE_HEIGHT, Constants.AIR_BLOCK_COLOR);
 
+            // water rendering
+            for (int i = 0; i < Constants.LEVEL_ROWS; i++) {
+                for (int j = Constants.LEVEL_COLUMNS -  level.waterLevel; j < Constants.LEVEL_COLUMNS; j++) {
+                    g.drawRect((int)Math.Floor((double)((i) * Constants.CAVE_WIDTH / Constants.LEVEL_ROWS) + Constants.BUFFER_ZONE),
+                               (int)Math.Floor((double)((j) * Constants.CAVE_HEIGHT / Constants.LEVEL_COLUMNS) + Constants.BUFFER_ZONE),
+                               (int)Math.Floor((double)Constants.CAVE_WIDTH / Constants.LEVEL_ROWS),
+                               (int)Math.Floor((double)Constants.CAVE_HEIGHT / Constants.LEVEL_COLUMNS),
+                               Constants.WATER_BLOCK_COLOR);
+                }
+            }
+
+            // wall rendering
             for (int i = 0; i < Constants.LEVEL_ROWS; i++) {
                 for (int j = 0; j < Constants.LEVEL_COLUMNS; j++) {
                     Block currentBlock = level.get(i, j);
+                    if (currentBlock.id == (int)Constants.Id.Air) continue;
+
                     Color currentColor = currentBlock.getColor();
                     g.drawRect((int)Math.Floor((double) ((i) * Constants.CAVE_WIDTH / Constants.LEVEL_ROWS) + Constants.BUFFER_ZONE),
                                (int)Math.Floor((double) ((j) * Constants.CAVE_HEIGHT / Constants.LEVEL_COLUMNS) + Constants.BUFFER_ZONE),
@@ -52,6 +67,7 @@ namespace CaveGame.Components {
                 }
             }
 
+            // toolbox rendering
             for (int i = 0; i < toolbox.Length; i++) {
                 Block tool = toolbox[i];
                 g.drawRect((int)Math.Floor((double) Constants.GAME_WIDTH) - Constants.BUFFER_ZONE - (Constants.CAVE_WIDTH / Constants.LEVEL_ROWS) * 2,
@@ -74,9 +90,15 @@ namespace CaveGame.Components {
         public void setBlock(double x, double y) {
             int xIndex = (int) (x - Constants.BUFFER_ZONE) / (Constants.CAVE_WIDTH / Constants.LEVEL_ROWS);
             int yIndex = (int) (y - Constants.BUFFER_ZONE) / (Constants.CAVE_HEIGHT / Constants.LEVEL_COLUMNS);
+            Block previousBlock = level.get(xIndex, yIndex);
 
             if (xIndex >= 0 && yIndex >= 0 && xIndex < Constants.LEVEL_ROWS && yIndex < Constants.LEVEL_COLUMNS) {
                 level.set(xIndex, yIndex, selectedBlock);
+            }
+
+            if (selectedBlock.id == (int) Constants.Id.Water) {
+                level.waterLevel = Constants.LEVEL_COLUMNS - yIndex;
+                level.set(xIndex, yIndex, previousBlock);
             }
         }
     }
