@@ -24,11 +24,11 @@ namespace CaveGame {
         public const int MAX_NEIGHBORS_ALIVE = 8;
 
         // Player.cs
-        public static Color PLAYER_COLOR  = Color.Green;
-        public static int PLAYER_WIDTH    = 10;
-        public static int PLAYER_HEIGHT   = 10;
-        public static double PLAYER_SPEED = 1;
-        public static double PLAYER_JUMP  = 1;
+        public static Color PLAYER_COLOR        = Color.Green;
+        public static int PLAYER_WIDTH          = 10;
+        public static int PLAYER_HEIGHT         = 10;
+        public static double PLAYER_SPEED       = 40;
+        public static double PLAYER_JUMP_HEIGHT = 50;
 
         // Scenes
         public const int GAME_WIDTH  = CAVE_WIDTH + BUFFER_ZONE * 3 + (CAVE_WIDTH / LEVEL_ROWS) * 2;
@@ -37,7 +37,7 @@ namespace CaveGame {
         // Tilemap
         public const int TILE_WIDTH  = CAVE_WIDTH / LEVEL_ROWS;
         public const int TILE_HEIGHT = CAVE_HEIGHT / LEVEL_COLUMNS;
-        public const double GRAVITY  = 1;
+        public const double GRAVITY  = 20;
 
         // Enum
         public enum Id {
