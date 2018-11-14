@@ -45,13 +45,12 @@ namespace CaveGame.Components {
             velocity.Y += (float) Constants.GRAVITY * Time.deltaTime;
 
             var motion = velocity * Time.deltaTime;
-
+            
             collisions.Clear();
             if (collider.collidesWithAnyMultiple(motion, collisions)) {
                 for (int i = 0; i < collisions.Count; i++) {
                     motion -= collisions[i].minimumTranslationVector;
                     Console.WriteLine(entity.position);
-
                     if (Math.Abs(collisions[i].normal.Y) == 1) {
                         velocity.Y = 0;
                         grounded = true;

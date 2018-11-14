@@ -76,8 +76,8 @@ namespace CaveGame.Scenes {
                 playerEntity.addComponent(new TiledMapMover(map.getLayer<TiledTileLayer>("walls")));
                 playerEntity.addComponent(new BoxCollider(0, 0, Constants.PLAYER_WIDTH, Constants.PLAYER_HEIGHT));
                 Console.WriteLine(caveEditor.level.spawn.X + " " + caveEditor.level.spawn.Y);
-                playerEntity.setPosition(caveEditor.level.spawn.X * (Constants.CAVE_HEIGHT / Constants.LEVEL_COLUMNS), 
-                                         caveEditor.level.spawn.Y * (Constants.CAVE_HEIGHT / Constants.LEVEL_COLUMNS));
+                playerEntity.setPosition(caveEditor.level.spawn.X * (Constants.CAVE_HEIGHT / Constants.LEVEL_COLUMNS) + Constants.BUFFER_ZONE, 
+                                         caveEditor.level.spawn.Y * (Constants.CAVE_HEIGHT / Constants.LEVEL_COLUMNS) + Constants.BUFFER_ZONE);
                 mode = (int) Mode.playing;
             }
 

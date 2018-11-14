@@ -16,7 +16,7 @@ namespace CaveGame.Cavegen {
             data = new Block[Constants.LEVEL_ROWS, Constants.LEVEL_COLUMNS];
             spawn.X = -1;
             spawn.Y = -1;
-            waterLevel = 0;
+            waterLevel = 20;
         }
 
         public void set(int i, int j, Block block) {
@@ -54,7 +54,7 @@ namespace CaveGame.Cavegen {
             // initializing
             TiledMap map = new TiledMap(0, Constants.LEVEL_ROWS, Constants.LEVEL_COLUMNS, Constants.TILE_WIDTH, Constants.TILE_HEIGHT);
             Texture2D tilesetTexture = GlintCore.contentSource.Load<Texture2D>("spritesheet");
-            TiledTileset tiledTileset = map.createTileset(tilesetTexture, 0, Constants.TILE_WIDTH, Constants.TILE_HEIGHT, true, 0, 0, 4, 1);
+            TiledTileset tiledTileset = map.createTileset(tilesetTexture, 0, Constants.TILE_WIDTH, Constants.TILE_HEIGHT, true, 0, 0, 5, 5);
 
             // creating the collidable tiledtile[]
             TiledTile[] collidableTiles = new TiledTile[data.GetLength(0) * data.GetLength(1)];
@@ -69,15 +69,15 @@ namespace CaveGame.Cavegen {
 
             // creating the water tiledtile[]
             TiledTile[] waterTiles = new TiledTile[data.GetLength(0) * data.GetLength(1)];
-            for (int i = 0; i < Constants.CAVE_WIDTH; i++) {
-                for (int j = Constants.CAVE_HEIGHT - waterLevel; j < Constants.CAVE_HEIGHT; j++) {
+            for (int i = 0; i < mw; i++) {
+                for (int j = mh - waterLevel; j < mh; j++) {
                         waterTiles[j * mw + i] = new TiledTile((int) Constants.Id.Water) { tileset = tiledTileset };
                 }
             }
 
-            // adding the layers together
-            map.createTileLayer("walls", map.width, map.height, collidableTiles);
+            // adding the layers togetherz
             map.createTileLayer("water", map.width, map.height, waterTiles);
+            map.createTileLayer("walls", map.width, map.height, collidableTiles);
 
             return map;
         }
