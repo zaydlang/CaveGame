@@ -7,12 +7,9 @@ using Nez.Tiled;
 
 namespace CaveGame.Components {
     class LightSourceComponent : RenderableComponent, IUpdatable {
+        public override RectangleF bounds => new RectangleF(0, 0, Constants.BUFFER_ZONE + Constants.CAVE_WIDTH, Constants.CAVE_HEIGHT);
 
         List<Vector2> lines;
-
-        public LightSourceComponent() {
-
-        }
 
         public override void onAddedToEntity() {
             base.onAddedToEntity();
@@ -23,7 +20,7 @@ namespace CaveGame.Components {
             TiledTileLayer map = (TiledTileLayer) entity.scene.entities.findEntity("map_tiles").getComponent<TiledMapComponent>().tiledMap.getLayer((int) Constants.Layer.Walls);
             int x1 = (int) (entity.position.X - Constants.LIGHT_STRENGTH) >= 0 ? (int) (entity.position.X - Constants.LIGHT_STRENGTH) : 0;
             int y1 = (int) (entity.position.Y - Constants.LIGHT_STRENGTH) >= 0 ? (int) (entity.position.Y - Constants.LIGHT_STRENGTH) : 0;
-            int x2 = (int) (entity.position.X + Constants.LIGHT_STRENGTH) < Constants.CAVE_WIDTH ? (int) (entity.position.X - Constants.LIGHT_STRENGTH) : Constants.CAVE_WIDTH - 1;
+            int x2 = (int) (entity.position.X + Constants.LIGHT_STRENGTH) < Constants.CAVE_WIDTH ? (int) (entity.position.X + Constants.LIGHT_STRENGTH) : Constants.CAVE_WIDTH - 1;
             int y2 = (int) (entity.position.Y + Constants.LIGHT_STRENGTH) < Constants.CAVE_HEIGHT ? (int) (entity.position.Y + Constants.LIGHT_STRENGTH) : Constants.CAVE_HEIGHT - 1;
 
             x1 /= Constants.TILE_WIDTH;
@@ -37,11 +34,12 @@ namespace CaveGame.Components {
                     TiledTile currentTile = map.getTile(i, j);
                     for (int k = 0; k < 2; k++) {
                         for (int l = 0; l < 2; l++) {
-                            if (currentTile.id == (int)Constants.Id.Solid) {
-                                Vector2 ray = new Vector2(i + k * Constants.TILE_WIDTH, j + l * Constants.TILE_HEIGHT);
-                                RaycastHit hit1 = Physics.linecast(entity.position, ray);
+                            if (currentTile != null && currentTile.id == (int)Constants.Id.Solid) {
+                                Vector2 ray = new Vector2((i + k) * Constants.TILE_WIDTH + Constants.BUFFER_ZONE, 
+                                                          (j + l) * Constants.TILE_HEIGHT + Constants.BUFFER_ZONE);
+                                RaycastHit hit = Physics.linecast(entity.position, ray);
 
-                                if (hit1.collider != null) {
+                                if (hit.collider != null) {
                                     lines.Add(ray);
                                 }
                             }

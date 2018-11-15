@@ -75,7 +75,7 @@ namespace CaveGame.Cavegen {
                 }
             }
 
-            // adding the layers togetherz
+            // adding the layers together
             map.createTileLayer("water", map.width, map.height, waterTiles);
             map.createTileLayer("walls", map.width, map.height, collidableTiles);
 
