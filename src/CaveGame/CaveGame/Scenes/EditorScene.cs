@@ -72,6 +72,17 @@ namespace CaveGame.Scenes {
                 mapEntity.addComponent(new TiledMapComponent(map, "walls"));
                 mapEntity.setPosition(Constants.BUFFER_ZONE, Constants.BUFFER_ZONE);
 
+                // create lightsources
+                for (int i = 0; i < Constants.LEVEL_ROWS; i++) {
+                    for (int j = 0; j < Constants.LEVEL_COLUMNS; j++) {
+                        if (caveEditor.level.get(i, j).id == (int)Constants.Id.Torch) {
+                            Entity light = this.createEntity("light");
+                            light.addComponent<LightSourceComponent>();
+                            light.setPosition(new Vector2(i * Constants.TILE_WIDTH, j * Constants.TILE_HEIGHT));
+                        }
+                    }
+                }
+
                 playerEntity.addComponent(new PlayerComponent());
                 playerEntity.addComponent(new TiledMapMover(map.getLayer<TiledTileLayer>("walls")));
                 playerEntity.addComponent(new BoxCollider(0, 0, Constants.PLAYER_WIDTH, Constants.PLAYER_HEIGHT));

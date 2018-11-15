@@ -43,6 +43,9 @@ namespace CaveGame {
         // Water
         public const int BOUYANT_FORCE = 1000;
 
+        // Light
+        public const int LIGHT_STRENGTH = 50;
+
         // Enum
         public enum Id {
             Solid,
