@@ -6,7 +6,7 @@ namespace CaveGame {
         // CaveEditor.cs
         public const int CAVE_WIDTH       = 800;
         public const int CAVE_HEIGHT      = 600;
-        public const int BUFFER_ZONE      = 0;
+        public const int BUFFER_ZONE      = 20;
         public static Color TOOLBOX_COLOR = Color.LightGray;
         public static Color BUFFER_COLOR  = Color.Black;
 

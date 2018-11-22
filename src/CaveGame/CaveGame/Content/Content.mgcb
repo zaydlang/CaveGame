@@ -13,6 +13,12 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin nez/effects/PolygonLight.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:nez/effects/PolygonLight.fx
+
 #begin spritesheet.png
 /importer:TextureImporter
 /processor:TextureProcessor

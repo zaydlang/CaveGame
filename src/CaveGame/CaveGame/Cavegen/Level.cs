@@ -56,10 +56,18 @@ namespace CaveGame.Cavegen {
             Texture2D tilesetTexture = GlintCore.contentSource.Load<Texture2D>("spritesheet");
             TiledTileset tiledTileset = map.createTileset(tilesetTexture, 0, Constants.TILE_WIDTH, Constants.TILE_HEIGHT, true, 0, 0, 5, 5);
 
-            // creating the collidable tiledtile[]
-            TiledTile[] collidableTiles = new TiledTile[data.GetLength(0) * data.GetLength(1)];
+            // creating the background
+            TiledTile[] backgroundTiles = new TiledTile[data.GetLength(0) * data.GetLength(1)];
             int mw = data.GetLength(0);
             int mh = data.GetLength(1);
+            for (int j = 0; j < mh; j++) {
+                for (int i = 0; i < mw; i++) {
+                    backgroundTiles[j * mw + i] = new TiledTile((int) Constants.Id.Air) { tileset = tiledTileset };
+                }
+            }
+
+            // creating the collidable tiledtile[]
+            TiledTile[] collidableTiles = new TiledTile[data.GetLength(0) * data.GetLength(1)];
             for (int j = 0; j < mh; j++) {
                 for (int i = 0; i < mw; i++) {
                     if (data[i, j].id == (int) Constants.Id.Solid)
@@ -76,6 +84,7 @@ namespace CaveGame.Cavegen {
             }
 
             // adding the layers together
+            map.createTileLayer("background", map.width, map.height, backgroundTiles);
             map.createTileLayer("water", map.width, map.height, waterTiles);
             map.createTileLayer("walls", map.width, map.height, collidableTiles);
 
