@@ -15,15 +15,19 @@ namespace CaveGame.Scenes {
         public Nez.VirtualButton rightClick;
         public Nez.VirtualButton play;
         public Nez.VirtualButton edit;
+        public Nez.VirtualButton switchLevels;
 
-        public CaveEditor caveEditor;
+        public CaveEditor[] caveEditors;
+        public int currentEditor;
 
         public Entity mapEntity;
         public Entity playerEntity;
+        public Entity caveViewEntity;
 
         enum Mode : int {
             editting,
-            playing
+            playing,
+            switching
         }
 
         public int mode = (int) Mode.editting;
@@ -34,11 +38,12 @@ namespace CaveGame.Scenes {
             // setup
             addRenderer(new DefaultRenderer());
             clearColor = Color.White;
+            caveEditors = new CaveEditor[Constants.NUMBER_OF_LEVELS];
 
             // add cave view component
-            var caveViewEntity = createEntity("cave_view");
-            caveEditor = caveViewEntity.addComponent(new CaveEditor());
-            caveEditor.generate();
+            caveViewEntity = createEntity("cave_view");
+            caveEditors[currentEditor] = caveViewEntity.addComponent(new CaveEditor());
+            caveEditors[currentEditor].generate();
 
             leftClick = new Nez.VirtualButton();
             leftClick.nodes.Add(new Nez.VirtualButton.MouseLeftButton());
@@ -52,6 +57,9 @@ namespace CaveGame.Scenes {
             edit = new Nez.VirtualButton();
             edit.nodes.Add(new Nez.VirtualButton.KeyboardKey(Microsoft.Xna.Framework.Input.Keys.E));
 
+            switchLevels = new Nez.VirtualButton();
+            switchLevels.nodes.Add(new Nez.VirtualButton.KeyboardKey(Microsoft.Xna.Framework.Input.Keys.N));
+
             mapEntity = createEntity("map_tiles");
             playerEntity = createEntity("player");
         }
@@ -62,36 +70,68 @@ namespace CaveGame.Scenes {
             Vector2 mouseLocation = Input.scaledMousePosition;
             
             if (leftClick.isDown) {
-                caveEditor.setBlock(mouseLocation.X, mouseLocation.Y);
+                caveEditors[currentEditor].setBlock(mouseLocation.X, mouseLocation.Y);
             }
 
             if (rightClick.isDown) {
-                caveEditor.selectBlock(mouseLocation.X, mouseLocation.Y);
+                caveEditors[currentEditor].selectBlock(mouseLocation.X, mouseLocation.Y);
             }
 
             if (play.isDown && mode == (int) Mode.editting) {
-                TiledMap map = caveEditor.level.bake();
-                mapEntity.addComponent(new TiledMapComponent(map, "walls"));
-                mapEntity.setPosition(Constants.BUFFER_ZONE, Constants.BUFFER_ZONE);
-
-                playerEntity.addComponent(new PlayerComponent());
-                playerEntity.addComponent(new TiledMapMover(map.getLayer<TiledTileLayer>("walls")));
-                playerEntity.addComponent(new BoxCollider(0, 0, Constants.PLAYER_WIDTH, Constants.PLAYER_HEIGHT));
-
-                Console.WriteLine(caveEditor.level.spawn.X + " " + caveEditor.level.spawn.Y);
-                playerEntity.setPosition(caveEditor.level.spawn.X * (Constants.CAVE_HEIGHT / Constants.LEVEL_COLUMNS) + Constants.BUFFER_ZONE, 
-                                         caveEditor.level.spawn.Y * (Constants.CAVE_HEIGHT / Constants.LEVEL_COLUMNS) + Constants.BUFFER_ZONE);
-                mode = (int) Mode.playing;
-            }
+                setPlay();
+            } else
 
             if (edit.isDown && mode == (int) Mode.playing) {
-                mapEntity.removeComponent<TiledMapComponent>();
+                setEdit();
+            } else
 
-                playerEntity.removeComponent<TiledMapMover>();
-                playerEntity.removeComponent<BoxCollider>();
-                playerEntity.removeComponent<PlayerComponent>();
-                mode = (int) Mode.editting;
+            if (switchLevels.isPressed && mode != (int) Mode.switching) {
+                setSwitch();
             }
+        }
+
+        public void setPlay() {
+            TiledMap map = caveEditors[currentEditor].level.bake();
+            mapEntity.addComponent(new TiledMapComponent(map, "walls"));
+            mapEntity.setPosition(Constants.BUFFER_ZONE, Constants.BUFFER_ZONE);
+
+            playerEntity.addComponent(new PlayerComponent());
+            playerEntity.addComponent(new TiledMapMover(map.getLayer<TiledTileLayer>("walls")));
+            playerEntity.addComponent(new BoxCollider(0, 0, Constants.PLAYER_WIDTH, Constants.PLAYER_HEIGHT));
+
+            Console.WriteLine(caveEditors[currentEditor].level.spawn.X + " " + caveEditors[currentEditor].level.spawn.Y);
+            playerEntity.setPosition(caveEditors[currentEditor].level.spawn.X * (Constants.CAVE_HEIGHT / Constants.LEVEL_COLUMNS) + Constants.BUFFER_ZONE,
+                                     caveEditors[currentEditor].level.spawn.Y * (Constants.CAVE_HEIGHT / Constants.LEVEL_COLUMNS) + Constants.BUFFER_ZONE);
+            mode = (int)Mode.playing;
+        }
+
+        public void setEdit() {
+            mapEntity.removeComponent<TiledMapComponent>();
+
+            playerEntity.removeComponent<TiledMapMover>();
+            playerEntity.removeComponent<BoxCollider>();
+            playerEntity.removeComponent<PlayerComponent>();
+            mode = (int)Mode.editting;
+        }
+
+        public void setSwitch() {
+            setEdit();
+
+            mode = (int)Mode.switching;
+            currentEditor++;
+            if (currentEditor >= Constants.NUMBER_OF_LEVELS) currentEditor = 0;
+            caveViewEntity.removeComponent<CaveEditor>();
+
+            if (caveEditors[currentEditor] == null) {
+                Console.WriteLine("Creating new Level... " + currentEditor);
+                caveEditors[currentEditor] = caveViewEntity.addComponent(new CaveEditor());
+                caveEditors[currentEditor].generate();
+            } else {
+                caveViewEntity.addComponent(caveEditors[currentEditor]);
+            }
+
+            Console.WriteLine("Done!");
+            mode = (int)Mode.editting;
         }
     }
 }

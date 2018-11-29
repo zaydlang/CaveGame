@@ -90,15 +90,16 @@ namespace CaveGame.Components {
         public void setBlock(double x, double y) {
             int xIndex = (int) (x - Constants.BUFFER_ZONE) / (Constants.CAVE_WIDTH / Constants.LEVEL_ROWS);
             int yIndex = (int) (y - Constants.BUFFER_ZONE) / (Constants.CAVE_HEIGHT / Constants.LEVEL_COLUMNS);
-            Block previousBlock = level.get(xIndex, yIndex);
 
-            if (xIndex >= 0 && yIndex >= 0 && xIndex < Constants.LEVEL_ROWS && yIndex < Constants.LEVEL_COLUMNS) {
-                level.set(xIndex, yIndex, selectedBlock);
+            if (xIndex < 0 || yIndex < 0 || xIndex >= Constants.LEVEL_ROWS || yIndex >= Constants.LEVEL_COLUMNS) {
+                return;
             }
+
+            Block previousBlock = level.get(xIndex, yIndex);
+            level.set(xIndex, yIndex, selectedBlock);
 
             if (selectedBlock.id == (int) Constants.Id.Water) {
                 level.waterLevel = Constants.LEVEL_COLUMNS - yIndex;
-                level.set(xIndex, yIndex, previousBlock);
             }
         }
     }
