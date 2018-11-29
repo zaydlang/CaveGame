@@ -6,7 +6,7 @@ namespace CaveGame {
         // CaveEditor.cs
         public const int CAVE_WIDTH       = 800;
         public const int CAVE_HEIGHT      = 600;
-        public const int BUFFER_ZONE      = 15;
+        public const int BUFFER_ZONE      = 20;
         public static Color TOOLBOX_COLOR = Color.LightGray;
         public static Color BUFFER_COLOR  = Color.Black;
 
@@ -14,9 +14,7 @@ namespace CaveGame {
         public static Color SOLID_BLOCK_COLOR    = Color.Gray;
         public static Color AIR_BLOCK_COLOR      = Color.White;
         public static Color ENTRANCE_BLOCK_COLOR = Color.LightGreen;
-        public static Color TORCH_BLOCK_COLOR    = Color.Yellow;
         public static Color WATER_BLOCK_COLOR    = Color.LightBlue;
-        public static int TORCH_BLOCK_RADIUS     = 5;
 
         // Level.cs
         public const int LEVEL_ROWS          = 80;
@@ -41,21 +39,19 @@ namespace CaveGame {
         public const double GRAVITY  = 650;
 
         // Water
-        public const int BOUYANT_FORCE = 1000;
-
-        // Light
-        public const int LIGHT_STRENGTH = 50;
+        public const int BOUYANT_FORCE              = 1300;
+        public const int DAMPENING_FORCE_UPON_ENTRY = 150;
 
         // Enum
         public enum Id {
             Solid,
             Air,
             Entrance,
-            Torch,
             Water
         }
 
         public enum Layer {
+            Background,
             Water,
             Walls
         }

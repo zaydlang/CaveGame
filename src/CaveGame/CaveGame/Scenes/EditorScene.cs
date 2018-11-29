@@ -6,6 +6,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Nez;
 using Nez.Tiled;
 using Glint;
+using Nez.Shadows;
+using Nez.Textures;
 
 namespace CaveGame.Scenes {
     public class EditorScene : Scene {
@@ -50,8 +52,8 @@ namespace CaveGame.Scenes {
             edit = new Nez.VirtualButton();
             edit.nodes.Add(new Nez.VirtualButton.KeyboardKey(Microsoft.Xna.Framework.Input.Keys.E));
 
-            mapEntity = this.createEntity("map_tiles");
-            playerEntity = this.createEntity("player");
+            mapEntity = createEntity("map_tiles");
+            playerEntity = createEntity("player");
         }
 
         public override void update() {
@@ -72,20 +74,10 @@ namespace CaveGame.Scenes {
                 mapEntity.addComponent(new TiledMapComponent(map, "walls"));
                 mapEntity.setPosition(Constants.BUFFER_ZONE, Constants.BUFFER_ZONE);
 
-                // create lightsources
-                for (int i = 0; i < Constants.LEVEL_ROWS; i++) {
-                    for (int j = 0; j < Constants.LEVEL_COLUMNS; j++) {
-                        if (caveEditor.level.get(i, j).id == (int)Constants.Id.Torch) {
-                            Entity light = this.createEntity("light");
-                            light.addComponent<LightSourceComponent>();
-                            light.setPosition(new Vector2(i * Constants.TILE_WIDTH, j * Constants.TILE_HEIGHT));
-                        }
-                    }
-                }
-
                 playerEntity.addComponent(new PlayerComponent());
                 playerEntity.addComponent(new TiledMapMover(map.getLayer<TiledTileLayer>("walls")));
                 playerEntity.addComponent(new BoxCollider(0, 0, Constants.PLAYER_WIDTH, Constants.PLAYER_HEIGHT));
+
                 Console.WriteLine(caveEditor.level.spawn.X + " " + caveEditor.level.spawn.Y);
                 playerEntity.setPosition(caveEditor.level.spawn.X * (Constants.CAVE_HEIGHT / Constants.LEVEL_COLUMNS) + Constants.BUFFER_ZONE, 
                                          caveEditor.level.spawn.Y * (Constants.CAVE_HEIGHT / Constants.LEVEL_COLUMNS) + Constants.BUFFER_ZONE);
@@ -94,6 +86,7 @@ namespace CaveGame.Scenes {
 
             if (edit.isDown && mode == (int) Mode.playing) {
                 mapEntity.removeComponent<TiledMapComponent>();
+
                 playerEntity.removeComponent<TiledMapMover>();
                 playerEntity.removeComponent<BoxCollider>();
                 playerEntity.removeComponent<PlayerComponent>();

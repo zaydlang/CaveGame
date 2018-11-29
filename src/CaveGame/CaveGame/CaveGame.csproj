@@ -7,11 +7,19 @@
     <MonoGameContentReference Include="**\*.mgcb" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="Content\Light.mgfxo" />
+    <None Remove="Content\nez\effects\transitions\PolygonLight.fx" />
+    <None Remove="Content\nez\effects\transitions\PolygonLight.mgfxo" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="MonoGame.Content.Builder" Version="3.7.0.4" />
     <PackageReference Include="MonoGame.Framework.DesktopGL.Core" Version="3.7.0.7" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\lib\FFNez\Nez.Portable\FFNez.csproj" />
     <ProjectReference Include="..\..\..\lib\Glint\Glint\Glint.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Content\nez\effects\transitions\" />
   </ItemGroup>
 </Project>

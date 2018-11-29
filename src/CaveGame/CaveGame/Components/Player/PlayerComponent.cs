@@ -11,7 +11,8 @@ namespace CaveGame.Components {
     public class PlayerComponent : RenderableComponent, IUpdatable {
         public override RectangleF bounds => new RectangleF(0, 0, Constants.BUFFER_ZONE + Constants.CAVE_WIDTH, Constants.CAVE_HEIGHT);
 
-        public bool grounded = false;
+        public bool grounded  = false;
+        public bool underWater = false;
 
         TiledMapMover mover;
         BoxCollider collider;
@@ -52,12 +53,27 @@ namespace CaveGame.Components {
                                                                                              (int)entity.position.Y - Constants.BUFFER_ZONE,
                                                                                              Constants.PLAYER_WIDTH,
                                                                                              Constants.PLAYER_HEIGHT));
-            foreach (TiledTile tile in waterTiles) {
-                Console.WriteLine(tile);
-                if (tile.id == (int)Constants.Id.Water) {
+            for (int i = 0; i < waterTiles.Count; i++) {
+                TiledTile tile = waterTiles[i];
+
+                Console.WriteLine(underWater + " " + i + " " + waterTiles[i].id);
+                Console.WriteLine(waterTiles.Count);
+                if (tile.id == (int) Constants.Id.Water) {
                     velocity.Y -= Constants.BOUYANT_FORCE * Time.deltaTime;
+                    
+                    if (underWater == false) {
+                        if (Math.Abs(velocity.Y) < Constants.DAMPENING_FORCE_UPON_ENTRY) velocity.Y = 0;
+                        else velocity.Y -= Constants.DAMPENING_FORCE_UPON_ENTRY;
+                        underWater = true;
+                    }
+
                     break;
                 }
+            }
+
+            // If none of the tiles were water
+            if (waterTiles.Count == 0) {
+                underWater = false;
             }
 
             var motion = velocity * Time.deltaTime;
