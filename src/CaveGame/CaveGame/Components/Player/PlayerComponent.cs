@@ -54,7 +54,7 @@ namespace CaveGame.Components {
                                                                                              Constants.PLAYER_HEIGHT));
             foreach (TiledTile tile in waterTiles) {
                 Console.WriteLine(tile);
-                if (tile.id == (int)Constants.Id.Water) {
+                if (tile.id == (int) Constants.Id.Water) {
                     velocity.Y -= Constants.BOUYANT_FORCE * Time.deltaTime;
                     break;
                 }

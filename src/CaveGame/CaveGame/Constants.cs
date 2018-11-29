@@ -14,9 +14,7 @@ namespace CaveGame {
         public static Color SOLID_BLOCK_COLOR    = Color.Gray;
         public static Color AIR_BLOCK_COLOR      = Color.White;
         public static Color ENTRANCE_BLOCK_COLOR = Color.LightGreen;
-        public static Color TORCH_BLOCK_COLOR    = Color.Yellow;
         public static Color WATER_BLOCK_COLOR    = Color.LightBlue;
-        public static int TORCH_BLOCK_RADIUS     = 5;
 
         // Level.cs
         public const int LEVEL_ROWS          = 80;
@@ -43,19 +41,16 @@ namespace CaveGame {
         // Water
         public const int BOUYANT_FORCE = 1000;
 
-        // Light
-        public const int LIGHT_STRENGTH = 50;
-
         // Enum
         public enum Id {
             Solid,
             Air,
             Entrance,
-            Torch,
             Water
         }
 
         public enum Layer {
+            Background,
             Water,
             Walls
         }

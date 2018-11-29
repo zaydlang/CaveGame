@@ -20,7 +20,7 @@ namespace CaveGame.Cavegen {
 
         }
 
-        public override int id => (int)Constants.Id.Solid;
+        public override int id => (int) Constants.Id.Solid;
     }
 
     public class AirBlock : Block {
@@ -28,7 +28,7 @@ namespace CaveGame.Cavegen {
 
         }
 
-        public override int id => (int)Constants.Id.Air;
+        public override int id => (int) Constants.Id.Air;
     }
 
     public class EntranceBlock : Block {
@@ -36,15 +36,7 @@ namespace CaveGame.Cavegen {
 
         }
 
-        public override int id => (int)Constants.Id.Entrance;
-    }
-
-    public class TorchBlock : Block {
-        public TorchBlock() : base(Constants.TORCH_BLOCK_COLOR) {
-
-        }
-
-        public override int id => (int)Constants.Id.Torch;
+        public override int id => (int) Constants.Id.Entrance;
     }
 
     public class WaterBlock : Block {
@@ -52,6 +44,6 @@ namespace CaveGame.Cavegen {
 
         }
 
-        public override int id => (int)Constants.Id.Water;
+        public override int id => (int) Constants.Id.Water;
     }
 }

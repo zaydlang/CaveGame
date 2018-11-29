@@ -74,21 +74,6 @@ namespace CaveGame.Scenes {
                 mapEntity.addComponent(new TiledMapComponent(map, "walls"));
                 mapEntity.setPosition(Constants.BUFFER_ZONE, Constants.BUFFER_ZONE);
 
-                // create lightsources
-                for (int i = 0; i < Constants.LEVEL_ROWS; i++) {
-                    for (int j = 0; j < Constants.LEVEL_COLUMNS; j++) {
-                        if (caveEditor.level.get(i, j).id == (int)Constants.Id.Torch) {
-                            Entity light = createEntity("light");
-                            light.setPosition(i * Constants.TILE_WIDTH + Constants.BUFFER_ZONE, 
-                                              j * Constants.TILE_HEIGHT + Constants.BUFFER_ZONE);
-                            light.addComponent<BoxCollider>();
-                            light.addComponent(new PolyLight(100) {
-                                color = Color.Yellow * 0.5f
-                            });
-                        }
-                    }
-                }
-
                 playerEntity.addComponent(new PlayerComponent());
                 playerEntity.addComponent(new TiledMapMover(map.getLayer<TiledTileLayer>("walls")));
                 playerEntity.addComponent(new BoxCollider(0, 0, Constants.PLAYER_WIDTH, Constants.PLAYER_HEIGHT));
@@ -101,7 +86,7 @@ namespace CaveGame.Scenes {
 
             if (edit.isDown && mode == (int) Mode.playing) {
                 mapEntity.removeComponent<TiledMapComponent>();
-                foreach (Entity light in this.entities.entitiesWithName("light")) light.destroy();
+
                 playerEntity.removeComponent<TiledMapMover>();
                 playerEntity.removeComponent<BoxCollider>();
                 playerEntity.removeComponent<PlayerComponent>();
