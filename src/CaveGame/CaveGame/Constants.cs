@@ -39,7 +39,8 @@ namespace CaveGame {
         public const double GRAVITY  = 650;
 
         // Water
-        public const int BOUYANT_FORCE = 1000;
+        public const int BOUYANT_FORCE              = 1300;
+        public const int DAMPENING_FORCE_UPON_ENTRY = 150;
 
         // Enum
         public enum Id {
