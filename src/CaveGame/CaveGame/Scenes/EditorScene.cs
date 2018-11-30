@@ -23,6 +23,8 @@ namespace CaveGame.Scenes {
         public Entity mapEntity;
         public Entity playerEntity;
         public Entity caveViewEntity;
+        public Entity currentLevelDisplayEntity;
+        public MarkupText currentLevelDisplayMarkupText;
 
         enum Mode : int {
             editting,
@@ -45,6 +47,7 @@ namespace CaveGame.Scenes {
             caveEditors[currentEditor] = caveViewEntity.addComponent(new CaveEditor());
             caveEditors[currentEditor].generate();
 
+            // add buttons
             leftClick = new Nez.VirtualButton();
             leftClick.nodes.Add(new Nez.VirtualButton.MouseLeftButton());
 
@@ -60,8 +63,17 @@ namespace CaveGame.Scenes {
             switchLevels = new Nez.VirtualButton();
             switchLevels.nodes.Add(new Nez.VirtualButton.KeyboardKey(Microsoft.Xna.Framework.Input.Keys.N));
 
+            // add other entities
             mapEntity = createEntity("map_tiles");
             playerEntity = createEntity("player");
+            currentLevelDisplayEntity = createEntity("current-level-display");
+
+            // setup current level display
+            currentLevelDisplayMarkupText = new MarkupText();
+            currentLevelDisplayMarkupText.setText("Current Level: 0");
+            currentLevelDisplayMarkupText.setColor(Constants.CURRENT_LEVEL_DISPLAY_TEXT_COLOR);
+            currentLevelDisplayEntity.addComponent(currentLevelDisplayMarkupText);
+            currentLevelDisplayEntity.setPosition(0, 0);
         }
 
         public override void update() {
@@ -76,6 +88,8 @@ namespace CaveGame.Scenes {
             if (rightClick.isDown) {
                 caveEditors[currentEditor].selectBlock(mouseLocation.X, mouseLocation.Y);
             }
+
+            Console.WriteLine(currentLevelDisplayEntity.position);
 
             if (play.isDown && mode == (int) Mode.editting) {
                 setPlay();
@@ -131,6 +145,7 @@ namespace CaveGame.Scenes {
             }
 
             Console.WriteLine("Done!");
+            currentLevelDisplayMarkupText.setText("Current Level: " + currentEditor);
             mode = (int)Mode.editting;
         }
     }
