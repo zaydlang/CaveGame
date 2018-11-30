@@ -16,6 +16,8 @@ namespace CaveGame.Scenes {
         public Nez.VirtualButton play;
         public Nez.VirtualButton edit;
         public Nez.VirtualButton switchLevels;
+        public Nez.VirtualButton ctrl;
+        public Nez.VirtualButton save;
 
         public CaveEditor[] caveEditors;
         public int currentEditor;
@@ -63,6 +65,13 @@ namespace CaveGame.Scenes {
             switchLevels = new Nez.VirtualButton();
             switchLevels.nodes.Add(new Nez.VirtualButton.KeyboardKey(Microsoft.Xna.Framework.Input.Keys.N));
 
+            ctrl = new Nez.VirtualButton();
+            ctrl.nodes.Add(new Nez.VirtualButton.KeyboardKey(Microsoft.Xna.Framework.Input.Keys.LeftControl));
+            ctrl.nodes.Add(new Nez.VirtualButton.KeyboardKey(Microsoft.Xna.Framework.Input.Keys.RightControl));
+
+            save = new Nez.VirtualButton();
+            save.nodes.Add(new Nez.VirtualButton.KeyboardKey(Microsoft.Xna.Framework.Input.Keys.S));
+
             // add other entities
             mapEntity = createEntity("map_tiles");
             playerEntity = createEntity("player");
@@ -89,8 +98,6 @@ namespace CaveGame.Scenes {
                 caveEditors[currentEditor].selectBlock(mouseLocation.X, mouseLocation.Y);
             }
 
-            Console.WriteLine(currentLevelDisplayEntity.position);
-
             if (play.isDown && mode == (int) Mode.editting) {
                 setPlay();
             } else
@@ -101,6 +108,10 @@ namespace CaveGame.Scenes {
 
             if (switchLevels.isPressed && mode != (int) Mode.switching) {
                 setSwitch();
+            }
+
+            if (ctrl.isDown && save.isDown) {
+                saveLevel();
             }
         }
 
@@ -147,6 +158,12 @@ namespace CaveGame.Scenes {
             Console.WriteLine("Done!");
             currentLevelDisplayMarkupText.setText("Current Level: " + currentEditor);
             mode = (int)Mode.editting;
+        }
+
+        public void saveLevel() {
+            Console.WriteLine("Serializing Level...");
+            caveEditors[currentEditor].serializeLevel();
+            Console.WriteLine("Serialization complete!");
         }
     }
 }

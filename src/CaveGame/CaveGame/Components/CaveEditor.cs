@@ -1,7 +1,10 @@
-﻿using CaveGame.Cavegen;
+﻿using System;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
+using CaveGame.Cavegen;
 using Microsoft.Xna.Framework;
 using Nez;
-using System;
 using Glint;
 
 namespace CaveGame.Components {
@@ -101,6 +104,26 @@ namespace CaveGame.Components {
             if (selectedBlock.id == (int) Constants.Id.Water) {
                 level.waterLevel = Constants.LEVEL_COLUMNS - yIndex;
             }
+        }
+
+        public void serializeLevel() {
+            string dir = System.IO.Path.GetDirectoryName(
+      System.Reflection.Assembly.GetExecutingAssembly().Location);
+            Console.WriteLine(dir);
+
+            Stream stream = new FileStream(@"C:\Test.txt", FileMode.Create, FileAccess.Write);
+
+            IFormatter formatter = new BinaryFormatter();
+            formatter.Serialize(stream, level);
+
+            stream.Close();
+
+
+            Level objnew = (Level)formatter.Deserialize(stream);
+
+            Console.WriteLine(objnew.waterLevel);
+
+            Console.ReadKey();
         }
     }
 }

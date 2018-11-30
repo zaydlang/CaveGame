@@ -6,6 +6,7 @@ using Nez.Tiled;
 using Glint;
 
 namespace CaveGame.Cavegen {
+    [Serializable]
     public class Level {
         public Vector2 spawn;
         public int waterLevel;
