@@ -1,4 +1,5 @@
 ﻿using System;
+using CaveGame.Util;
 using Microsoft.Xna.Framework;
 
 namespace CaveGame.Cavegen {
@@ -42,6 +43,15 @@ namespace CaveGame.Cavegen {
         }
 
         public override int id => (int) Constants.Id.Entrance;
+    }
+
+    [Serializable]
+    public class ExitBlock : Block {
+        public ExitBlock() : base(Constants.EXIT_BLOCK_COLOR) {
+
+        }
+
+        public override int id => (int) Constants.Id.Exit;
     }
 
     [Serializable]

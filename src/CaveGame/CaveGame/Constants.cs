@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using CaveGame.Util;
 
 namespace CaveGame {
     public class Constants {
@@ -16,6 +17,7 @@ namespace CaveGame {
         public static SerializableColor SOLID_BLOCK_COLOR    = new SerializableColor(Color.Gray);
         public static SerializableColor AIR_BLOCK_COLOR      = new SerializableColor(Color.White);
         public static SerializableColor ENTRANCE_BLOCK_COLOR = new SerializableColor(Color.LightGreen);
+        public static SerializableColor EXIT_BLOCK_COLOR     = new SerializableColor(Color.Red);
         public static SerializableColor WATER_BLOCK_COLOR    = new SerializableColor(Color.LightBlue);
 
         // Level.cs
@@ -49,6 +51,7 @@ namespace CaveGame {
             Solid,
             Air,
             Entrance,
+            Exit,
             Water
         }
 

@@ -4,20 +4,21 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Nez.Tiled;
 using Glint;
+using CaveGame.Util;
 
 namespace CaveGame.Cavegen {
     [Serializable]
     public class Level {
-        public float spawnX;
-        public float spawnY;
+        public SerializableVector2 entrance;
+        public SerializableVector2[] exits;
+
         public int waterLevel;
 
         private Block[,] data;
 
         public Level() {
             data = new Block[Constants.LEVEL_ROWS, Constants.LEVEL_COLUMNS];
-            spawnX = -1;
-            spawnY = -1;
+            entrance = new SerializableVector2(new Vector2(-1, -1));
             waterLevel = 20;
         }
 
@@ -30,10 +31,10 @@ namespace CaveGame.Cavegen {
             if (block.id == (int)Constants.Id.Entrance) {
                 // We know if X is -1, then Y is -1 because of the constructor. Unless something went horribly wrong.
                 // Also I want to check if the player isnt simply holding the button in the same spot.
-                if (spawnX != -1 && spawnX != i && spawnY != j)
-                    data[(int) spawnX, (int)spawnY] = new AirBlock();
-                spawnX = i;
-                spawnY = j;
+                if (entrance.X != -1 && entrance.X != i && entrance.Y != j)
+                    data[(int) entrance.X, (int)entrance.Y] = new AirBlock();
+                entrance.X = i;
+                entrance.Y = j;
             }
         }
 
