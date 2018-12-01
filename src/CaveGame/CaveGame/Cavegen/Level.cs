@@ -8,15 +8,16 @@ using Glint;
 namespace CaveGame.Cavegen {
     [Serializable]
     public class Level {
-        public Vector2 spawn;
+        public float spawnX;
+        public float spawnY;
         public int waterLevel;
 
         private Block[,] data;
 
         public Level() {
             data = new Block[Constants.LEVEL_ROWS, Constants.LEVEL_COLUMNS];
-            spawn.X = -1;
-            spawn.Y = -1;
+            spawnX = -1;
+            spawnY = -1;
             waterLevel = 20;
         }
 
@@ -29,10 +30,10 @@ namespace CaveGame.Cavegen {
             if (block.id == (int)Constants.Id.Entrance) {
                 // We know if X is -1, then Y is -1 because of the constructor. Unless something went horribly wrong.
                 // Also I want to check if the player isnt simply holding the button in the same spot.
-                if (spawn.X != -1 && spawn.X != i && spawn.Y != j)
-                    data[(int) spawn.X, (int)spawn.Y] = new AirBlock();
-                spawn.X = i;
-                spawn.Y = j;
+                if (spawnX != -1 && spawnX != i && spawnY != j)
+                    data[(int) spawnX, (int)spawnY] = new AirBlock();
+                spawnX = i;
+                spawnY = j;
             }
         }
 

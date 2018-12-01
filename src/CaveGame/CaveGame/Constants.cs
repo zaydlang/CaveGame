@@ -8,15 +8,15 @@ namespace CaveGame {
         public const int CAVE_HEIGHT                         = 600;
         public const int BUFFER_ZONE                         = 20;
         public const int NUMBER_OF_LEVELS                    = 3;
-        public static Color TOOLBOX_COLOR                    = Color.LightGray;
-        public static Color BUFFER_COLOR                     = Color.Black;
-        public static Color CURRENT_LEVEL_DISPLAY_TEXT_COLOR = Color.White;
+        public static SerializableColor TOOLBOX_COLOR                    = new SerializableColor(Color.LightGray);
+        public static SerializableColor BUFFER_COLOR                     = new SerializableColor(Color.Black);
+        public static SerializableColor CURRENT_LEVEL_DISPLAY_TEXT_COLOR = new SerializableColor(Color.White);
 
         // Blocks
-        public static Color SOLID_BLOCK_COLOR    = Color.Gray;
-        public static Color AIR_BLOCK_COLOR      = Color.White;
-        public static Color ENTRANCE_BLOCK_COLOR = Color.LightGreen;
-        public static Color WATER_BLOCK_COLOR    = Color.LightBlue;
+        public static SerializableColor SOLID_BLOCK_COLOR    = new SerializableColor(Color.Gray);
+        public static SerializableColor AIR_BLOCK_COLOR      = new SerializableColor(Color.White);
+        public static SerializableColor ENTRANCE_BLOCK_COLOR = new SerializableColor(Color.LightGreen);
+        public static SerializableColor WATER_BLOCK_COLOR    = new SerializableColor(Color.LightBlue);
 
         // Level.cs
         public const int LEVEL_ROWS          = 80;
@@ -25,11 +25,11 @@ namespace CaveGame {
         public const int MAX_NEIGHBORS_ALIVE = 8;
 
         // Player.cs
-        public static Color PLAYER_COLOR        = Color.Green;
-        public static int PLAYER_WIDTH          = 10;
-        public static int PLAYER_HEIGHT         = 10;
-        public static double PLAYER_SPEED       = 120;
-        public static double PLAYER_JUMP_HEIGHT = 100;
+        public static SerializableColor PLAYER_COLOR = new SerializableColor(Color.Green);
+        public static int PLAYER_WIDTH               = 10;
+        public static int PLAYER_HEIGHT              = 10;
+        public static double PLAYER_SPEED            = 120;
+        public static double PLAYER_JUMP_HEIGHT      = 100;
 
         // Scenes
         public const int GAME_WIDTH  = CAVE_WIDTH + BUFFER_ZONE * 3 + (CAVE_WIDTH / LEVEL_ROWS) * 2;

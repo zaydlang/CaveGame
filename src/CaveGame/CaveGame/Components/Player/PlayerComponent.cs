@@ -107,7 +107,7 @@ namespace CaveGame.Components {
                        entity.position.Y,
                        Constants.PLAYER_WIDTH,
                        Constants.PLAYER_HEIGHT, 
-                       Constants.PLAYER_COLOR);
+                       Constants.PLAYER_COLOR.getColor());
         }
     }
 }

@@ -33,16 +33,17 @@ namespace CaveGame.Components {
                     .createRooms(8, 10, 10, 30, 30, new AirBlock())
                     .smooth(new AirBlock(), new SolidBlock())
                     .smooth(new AirBlock(), new SolidBlock());
-            } while (level.getDensityScore(4, 4, 0.5, new AirBlock()) < 0.85 ||
-                     level.getRoomSizeScore(250, new AirBlock()) < 1 ||
-                     level.getRoomSizeScore(30, new SolidBlock()) < 1);
+            } while (false);
+            // while level.getDensityScore(4, 4, 0.5, new AirBlock()) < 0.85 ||
+            // level.getRoomSizeScore(250, new AirBlock()) < 1 ||
+            // level.getRoomSizeScore(30, new SolidBlock()) < 1
         }
 
         public override void render(Graphics graphics, Camera camera) {
             var g = graphics.batcher;
 
-            g.drawRect(0, 0, Constants.GAME_WIDTH, Constants.GAME_HEIGHT, Constants.BUFFER_COLOR);
-            g.drawRect(Constants.BUFFER_ZONE, Constants.BUFFER_ZONE, Constants.CAVE_WIDTH, Constants.CAVE_HEIGHT, Constants.AIR_BLOCK_COLOR);
+            g.drawRect(0, 0, Constants.GAME_WIDTH, Constants.GAME_HEIGHT, Constants.BUFFER_COLOR.getColor());
+            g.drawRect(Constants.BUFFER_ZONE, Constants.BUFFER_ZONE, Constants.CAVE_WIDTH, Constants.CAVE_HEIGHT, Constants.AIR_BLOCK_COLOR.getColor());
 
             // water rendering
             for (int i = 0; i < Constants.LEVEL_ROWS; i++) {
@@ -51,7 +52,7 @@ namespace CaveGame.Components {
                                (int)Math.Floor((double)((j) * Constants.CAVE_HEIGHT / Constants.LEVEL_COLUMNS) + Constants.BUFFER_ZONE),
                                (int)Math.Floor((double)Constants.CAVE_WIDTH / Constants.LEVEL_ROWS),
                                (int)Math.Floor((double)Constants.CAVE_HEIGHT / Constants.LEVEL_COLUMNS),
-                               Constants.WATER_BLOCK_COLOR);
+                               Constants.WATER_BLOCK_COLOR.getColor());
                 }
             }
 
@@ -107,23 +108,22 @@ namespace CaveGame.Components {
         }
 
         public void serializeLevel() {
-            string dir = System.IO.Path.GetDirectoryName(
-      System.Reflection.Assembly.GetExecutingAssembly().Location);
-            Console.WriteLine(dir);
+            string runDirectory = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            string cutoff = @"src\CaveGame\CaveGame";
+            string levelName = "Test.txt";
+            string levelDirectory = @"\Levels\";
 
-            Stream stream = new FileStream(@"C:\Test.txt", FileMode.Create, FileAccess.Write);
+            runDirectory = runDirectory.Substring(0, runDirectory.IndexOf(cutoff) + cutoff.Length);
+            runDirectory += levelDirectory + levelName;
+            Stream stream = new FileStream(runDirectory,
+                                     FileMode.Create,
+                                     FileAccess.Write, 
+                                     FileShare.None);
 
             IFormatter formatter = new BinaryFormatter();
             formatter.Serialize(stream, level);
 
             stream.Close();
-
-
-            Level objnew = (Level)formatter.Deserialize(stream);
-
-            Console.WriteLine(objnew.waterLevel);
-
-            Console.ReadKey();
         }
     }
 }

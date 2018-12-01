@@ -80,7 +80,7 @@ namespace CaveGame.Scenes {
             // setup current level display
             currentLevelDisplayMarkupText = new MarkupText();
             currentLevelDisplayMarkupText.setText("Current Level: 0");
-            currentLevelDisplayMarkupText.setColor(Constants.CURRENT_LEVEL_DISPLAY_TEXT_COLOR);
+            currentLevelDisplayMarkupText.setColor(Constants.CURRENT_LEVEL_DISPLAY_TEXT_COLOR.getColor());
             currentLevelDisplayEntity.addComponent(currentLevelDisplayMarkupText);
             currentLevelDisplayEntity.setPosition(0, 0);
         }
@@ -124,9 +124,9 @@ namespace CaveGame.Scenes {
             playerEntity.addComponent(new TiledMapMover(map.getLayer<TiledTileLayer>("walls")));
             playerEntity.addComponent(new BoxCollider(0, 0, Constants.PLAYER_WIDTH, Constants.PLAYER_HEIGHT));
 
-            Console.WriteLine(caveEditors[currentEditor].level.spawn.X + " " + caveEditors[currentEditor].level.spawn.Y);
-            playerEntity.setPosition(caveEditors[currentEditor].level.spawn.X * (Constants.CAVE_HEIGHT / Constants.LEVEL_COLUMNS) + Constants.BUFFER_ZONE,
-                                     caveEditors[currentEditor].level.spawn.Y * (Constants.CAVE_HEIGHT / Constants.LEVEL_COLUMNS) + Constants.BUFFER_ZONE);
+            Console.WriteLine(caveEditors[currentEditor].level.spawnX + " " + caveEditors[currentEditor].level.spawnY);
+            playerEntity.setPosition(caveEditors[currentEditor].level.spawnX * (Constants.CAVE_HEIGHT / Constants.LEVEL_COLUMNS) + Constants.BUFFER_ZONE,
+                                     caveEditors[currentEditor].level.spawnY * (Constants.CAVE_HEIGHT / Constants.LEVEL_COLUMNS) + Constants.BUFFER_ZONE);
             mode = (int)Mode.playing;
         }
 

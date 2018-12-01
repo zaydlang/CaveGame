@@ -1,20 +1,23 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 
 namespace CaveGame.Cavegen {
+    [Serializable]
     public abstract class Block {
-        private Color color;
+        private SerializableColor SerializableColor;
 
-        public Block(Color color) {
-            this.color = color;
+        public Block(SerializableColor SerializableColor) {
+            this.SerializableColor = SerializableColor;
         }
 
         public Color getColor() {
-            return color;
+            return SerializableColor.getColor();
         }
 
         public abstract int id { get; }
     }
 
+    [Serializable]
     public class SolidBlock : Block {
         public SolidBlock() : base(Constants.SOLID_BLOCK_COLOR) {
 
@@ -23,6 +26,7 @@ namespace CaveGame.Cavegen {
         public override int id => (int) Constants.Id.Solid;
     }
 
+    [Serializable]
     public class AirBlock : Block {
         public AirBlock() : base(Constants.AIR_BLOCK_COLOR) {
 
@@ -31,6 +35,7 @@ namespace CaveGame.Cavegen {
         public override int id => (int) Constants.Id.Air;
     }
 
+    [Serializable]
     public class EntranceBlock : Block {
         public EntranceBlock() : base(Constants.ENTRANCE_BLOCK_COLOR) {
 
@@ -39,6 +44,7 @@ namespace CaveGame.Cavegen {
         public override int id => (int) Constants.Id.Entrance;
     }
 
+    [Serializable]
     public class WaterBlock : Block {
         public WaterBlock() : base(Constants.WATER_BLOCK_COLOR) {
 
