@@ -18,6 +18,7 @@ namespace CaveGame.Scenes {
         public Nez.VirtualButton switchLevels;
         public Nez.VirtualButton ctrl;
         public Nez.VirtualButton save;
+        public Nez.VirtualButton load;
 
         public CaveEditor[] caveEditors;
         public int currentEditor;
@@ -72,6 +73,9 @@ namespace CaveGame.Scenes {
             save = new Nez.VirtualButton();
             save.nodes.Add(new Nez.VirtualButton.KeyboardKey(Microsoft.Xna.Framework.Input.Keys.S));
 
+            load = new Nez.VirtualButton();
+            load.nodes.Add(new Nez.VirtualButton.KeyboardKey(Microsoft.Xna.Framework.Input.Keys.L));
+
             // add other entities
             mapEntity = createEntity("map_tiles");
             playerEntity = createEntity("player");
@@ -110,8 +114,12 @@ namespace CaveGame.Scenes {
                 setSwitch();
             }
 
-            if (ctrl.isDown && save.isDown) {
+            if (ctrl.isDown && save.isPressed) {
                 saveLevel();
+            }
+
+            if (ctrl.isDown && load.isPressed) {
+                loadLevel();
             }
         }
 
@@ -164,6 +172,12 @@ namespace CaveGame.Scenes {
             Console.WriteLine("Serializing Level...");
             caveEditors[currentEditor].serializeLevel();
             Console.WriteLine("Serialization complete!");
+        }
+
+        public void loadLevel() {
+            Console.WriteLine("Deserializing Level...");
+            caveEditors[currentEditor].deserializeLevel();
+            Console.WriteLine("Deserialization complete!");
         }
     }
 }

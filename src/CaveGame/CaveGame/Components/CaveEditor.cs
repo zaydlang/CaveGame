@@ -125,5 +125,24 @@ namespace CaveGame.Components {
 
             stream.Close();
         }
+
+        public void deserializeLevel() {
+            string runDirectory = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            string cutoff = @"src\CaveGame\CaveGame";
+            string levelName = "Test.txt";
+            string levelDirectory = @"\Levels\";
+
+            runDirectory = runDirectory.Substring(0, runDirectory.IndexOf(cutoff) + cutoff.Length);
+            runDirectory += levelDirectory + levelName;
+            Stream stream = new FileStream(runDirectory,
+                                      FileMode.Open,
+                                      FileAccess.Read,
+                                      FileShare.Read);
+            IFormatter formatter = new BinaryFormatter();
+            Level loadedLevel = (Level) formatter.Deserialize(stream);
+            level = loadedLevel;
+
+            stream.Close();
+        }
     }
 }
