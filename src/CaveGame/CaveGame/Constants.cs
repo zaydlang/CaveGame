@@ -32,6 +32,7 @@ namespace CaveGame {
         public static int PLAYER_HEIGHT              = 10;
         public static double PLAYER_SPEED            = 120;
         public static double PLAYER_JUMP_HEIGHT      = 100;
+        public static double PLAYER_COYOTE_TIME      = 150;
 
         // Scenes
         public const int GAME_WIDTH  = CAVE_WIDTH + BUFFER_ZONE * 3 + (CAVE_WIDTH / LEVEL_ROWS) * 2;

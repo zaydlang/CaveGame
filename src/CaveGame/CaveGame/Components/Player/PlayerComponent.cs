@@ -14,6 +14,8 @@ namespace CaveGame.Components {
         public bool grounded  = false;
         public bool underWater = false;
 
+        public DateTime coyoteTime;
+
         TiledMapMover mover;
         BoxCollider collider;
         Vector2 velocity;
@@ -25,6 +27,7 @@ namespace CaveGame.Components {
             collider = entity.getComponent<BoxCollider>();
 
             grounded = false;
+            coyoteTime = DateTime.Now;
         }
 
         void IUpdatable.update() {
@@ -37,15 +40,13 @@ namespace CaveGame.Components {
             if (!Input.isKeyDown(Keys.Left) && !Input.isKeyDown(Keys.Right)) {
                 velocity.X = 0;
             }
-            if (Input.isKeyDown(Keys.Up) && grounded) {
-                Console.WriteLine(grounded);
-                grounded = false;
+            if (Input.isKeyDown(Keys.Up) && (grounded || (DateTime.Now - coyoteTime).TotalMilliseconds < Constants.PLAYER_COYOTE_TIME)) {
                 velocity.Y = -(float) Math.Sqrt(2 * Constants.GRAVITY * Constants.PLAYER_JUMP_HEIGHT);
             }
 
             grounded = false;
             velocity.Y += (float) Constants.GRAVITY * Time.deltaTime;
-
+            Console.WriteLine(coyoteTime + "\n" + DateTime.Now + "\n");
             // water collision
             TiledTileLayer waterLayer = (TiledTileLayer)entity.scene.entities.findEntity("map_tiles")
                                                                .getComponent<TiledMapComponent>()
@@ -94,6 +95,7 @@ namespace CaveGame.Components {
                         velocity.Y = 0;
                         Console.WriteLine("Hit floor!");
                         grounded = true;
+                        coyoteTime = DateTime.Now;
                     }
                 }
             }
